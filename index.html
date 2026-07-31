@@ -175,6 +175,7 @@ body.lang-en [lang-en]{display:inline;}
 
   <!-- ===== 홈 ===== -->
   <div id="home" class="screen on">
+    <div id="offlineBadge" style="display:none; position:absolute; top:10px; left:14px; font-size:.72rem; font-weight:700; padding:4px 10px; border-radius:12px; z-index:5;"></div>
     <div class="langtoggle">
       <button id="langKo" class="active" onclick="setLang('ko')">한</button>
       <button id="langEn" onclick="setLang('en')">EN</button>
@@ -872,8 +873,50 @@ function faaFlip(){ faaFlipped=!faaFlipped; faaEditing=false; renderFaaCard(docu
 /* ===== PWA: 서비스워커 등록(오프라인 작동) ===== */
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    navigator.serviceWorker.register('sw.js').then(()=>{
+      initOfflineBadge();
+    }).catch(()=>{});
   });
+}
+
+/* ===== 오프라인(음악 6곡) 다운로드 상태 배지 ===== */
+function initOfflineBadge(){
+  var badge = document.getElementById('offlineBadge');
+  if(!badge) return;
+
+  function paint(status){
+    if(!status){ badge.style.display='none'; return; }
+    badge.style.display='block';
+    if(status.ready){
+      badge.textContent = (document.documentElement.lang==='en' ? '✓ Offline ready' : '✓ 오프라인 준비 완료');
+      badge.style.background = '#dcefe0';
+      badge.style.color = '#1f6b3a';
+    } else {
+      var n = status.cachedCount, t = status.totalCount;
+      badge.textContent = (document.documentElement.lang==='en'
+        ? 'Downloading offline sounds ('+n+'/'+t+')'
+        : '오프라인 저장 중 ('+n+'/'+t+')');
+      badge.style.background = '#fff3d6';
+      badge.style.color = '#8a5a00';
+    }
+  }
+
+  function ask(){
+    if(navigator.serviceWorker.controller){
+      navigator.serviceWorker.controller.postMessage({type:'CHECK_MUSIC_CACHE'});
+    }
+  }
+
+  navigator.serviceWorker.addEventListener('message', function(ev){
+    if(ev.data && ev.data.type==='MUSIC_CACHE_STATUS'){
+      paint(ev.data);
+      // 아직 다 안 받았으면 잠시 후 다시 확인(다운로드 진행 반영)
+      if(!ev.data.ready) setTimeout(ask, 3000);
+    }
+  });
+
+  ask();
+  setTimeout(ask, 1500); // 컨트롤러 연결 직후 타이밍 보정
 }
 </script>
 </body>
