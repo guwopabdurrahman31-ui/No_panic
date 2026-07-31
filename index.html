@@ -175,7 +175,7 @@ body.lang-en [lang-en]{display:inline;}
 
   <!-- ===== 홈 ===== -->
   <div id="home" class="screen on">
-    <div id="offlineBadge" style="display:none; position:absolute; top:10px; left:14px; font-size:.72rem; font-weight:700; padding:4px 10px; border-radius:12px; z-index:5;"></div>
+    <div id="offlineBadge" style="display:none; position:fixed; top:calc(env(safe-area-inset-top, 0px) + 10px); left:50%; transform:translateX(-50%); font-size:.8rem; font-weight:700; padding:7px 16px; border-radius:16px; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,.15); white-space:nowrap;"></div>
     <div class="langtoggle">
       <button id="langKo" class="active" onclick="setLang('ko')">한</button>
       <button id="langEn" onclick="setLang('en')">EN</button>
@@ -884,6 +884,8 @@ function initOfflineBadge(){
   var badge = document.getElementById('offlineBadge');
   if(!badge) return;
 
+  var alreadyShownReady = false;
+
   function paint(status){
     if(!status){ badge.style.display='none'; return; }
     badge.style.display='block';
@@ -891,6 +893,11 @@ function initOfflineBadge(){
       badge.textContent = (document.documentElement.lang==='en' ? '✓ Offline ready' : '✓ 오프라인 준비 완료');
       badge.style.background = '#dcefe0';
       badge.style.color = '#1f6b3a';
+      // 완료 배지는 5초간 보여준 뒤 자동으로 숨긴다(화면을 계속 가리지 않도록)
+      if(!alreadyShownReady){
+        alreadyShownReady = true;
+        setTimeout(function(){ badge.style.display='none'; }, 5000);
+      }
     } else {
       var n = status.cachedCount, t = status.totalCount;
       badge.textContent = (document.documentElement.lang==='en'
