@@ -1,2 +1,9 @@
 .DS_Store
 **/.DS_Store
+.gradle/
+build/
+app/build/
+.idea/
+*.keystore
+*.jks
+node_modules/
