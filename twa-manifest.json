@@ -17,8 +17,8 @@
   "maskableIconUrl": "https://guwopabdurrahman31-ui.github.io/No_panic/assets/icons/icon-512-maskable.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
-    "path": "./android.keystore",
-    "alias": "android"
+    "path": "./upload-keystore.jks",
+    "alias": "upload"
   },
   "appVersionName": "y",
   "appVersionCode": 3,
