@@ -1,54 +1,140 @@
-/*
- * Copyright 2020 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.guwopabdurrahman31ui.nopanic;
 
-import android.content.pm.ActivityInfo;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 
-
-
-public class LauncherActivity
-        extends com.google.androidbrowserhelper.trusted.LauncherActivity {
-    
-
-    
+/**
+ * 앱에 포함된 웹 화면을 Android WebView로 실행한다.
+ *
+ * 이 Activity는 Trusted Web Activity나 Custom Tab을 사용하지 않는다. 모든 화면과 음악은
+ * 앱 번들에 포함되며, 외부 근거 링크만 사용자가 선택했을 때 시스템 브라우저로 연다.
+ */
+public final class LauncherActivity extends Activity {
+    private static final String START_URL = "file:///android_asset/www/index.html";
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Setting an orientation crashes the app due to the transparent background on Android 8.0
-        // Oreo and below. We only set the orientation on Oreo and above. This only affects the
-        // splash screen and Chrome will still respect the orientation.
-        // See https://github.com/GoogleChromeLabs/bubblewrap/issues/496 for details.
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+
+        getWindow().setStatusBarColor(Color.rgb(233, 239, 230));
+        getWindow().setNavigationBarColor(Color.rgb(233, 239, 230));
+
+        webView = new WebView(this);
+        webView.setLayoutParams(new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        configureWebView(webView);
+        setContentView(webView);
+
+        if (savedInstanceState == null) {
+            webView.loadUrl(START_URL);
         } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            webView.restoreState(savedInstanceState);
+        }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void configureWebView(WebView view) {
+        if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+        WebSettings settings = view.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setAllowContentAccess(false);
+        settings.setAllowFileAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(false);
+        settings.setMediaPlaybackRequiresUserGesture(true);
+        settings.setSupportMultipleWindows(false);
+        settings.setBuiltInZoomControls(false);
+        settings.setDisplayZoomControls(false);
+        settings.setSaveFormData(false);
+
+        CookieManager.getInstance().setAcceptCookie(false);
+        view.setBackgroundColor(Color.rgb(233, 239, 230));
+        view.setWebChromeClient(new WebChromeClient());
+        view.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView currentView, WebResourceRequest request) {
+                return handleNavigation(request.getUrl());
+            }
+
+            @Override
+            @SuppressWarnings("deprecation")
+            public boolean shouldOverrideUrlLoading(WebView currentView, String url) {
+                return handleNavigation(Uri.parse(url));
+            }
+
+            @Override
+            public void onPageFinished(WebView currentView, String url) {
+                // 새 창을 지원하지 않는 대신 외부 링크를 같은 창 요청으로 바꿔 시스템 브라우저로 전달한다.
+                currentView.evaluateJavascript(
+                        "document.querySelectorAll('a[target=\"_blank\"]').forEach(function(a){a.removeAttribute('target');});",
+                        null);
+            }
+        });
+    }
+
+    private boolean handleNavigation(Uri uri) {
+        String scheme = uri.getScheme();
+        if (scheme == null || "file".equalsIgnoreCase(scheme) || "about".equalsIgnoreCase(scheme)) {
+            return false;
+        }
+
+        if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            } catch (ActivityNotFoundException ignored) {
+                // 브라우저가 없는 특수 기기에서는 링크를 열지 않고 앱 화면을 유지한다.
+            }
+            return true;
+        }
+
+        return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        webView.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onBackPressed() {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
         }
     }
 
     @Override
-    protected Uri getLaunchingUrl() {
-        // Get the original launch Url.
-        Uri uri = super.getLaunchingUrl();
-
-        
-
-        return uri;
+    protected void onDestroy() {
+        if (webView != null) {
+            webView.loadUrl("about:blank");
+            webView.stopLoading();
+            webView.setWebChromeClient(null);
+            webView.setWebViewClient(null);
+            webView.destroy();
+            webView = null;
+        }
+        super.onDestroy();
     }
 }

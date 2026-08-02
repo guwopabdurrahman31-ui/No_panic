@@ -1,7 +1,7 @@
-// 넘기기 앱 서비스워커 — 오프라인 완전 작동을 위한 캐싱
+// 공황패스 SOS 앱 서비스워커 — 오프라인 완전 작동을 위한 캐싱
 // 개인정보 관련 네트워크 요청 없음 — 이 앱은 서버와 통신하지 않습니다.
 
-const CACHE_NAME = 'panic-app-v2';
+const CACHE_NAME = 'panic-app-v9';
 const CORE_ASSETS = [
   './',
   './index.html',

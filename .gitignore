@@ -1,9 +1,14 @@
 .DS_Store
 **/.DS_Store
+._*
 .gradle/
 build/
 app/build/
 .idea/
+.artifacts/
 *.keystore
 *.jks
 node_modules/
+play-store/signing/
+play-store/release/
+play-store/assets/*-source.png

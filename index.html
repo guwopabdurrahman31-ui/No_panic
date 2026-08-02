@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#e9efe6">
-<title>넘기기 — 공황 대처</title>
+<meta name="description" content="공황발작이 오기 전이나 시작됐을 때 바로 사용하는 무료 오프라인 대처 가이드">
+<meta name="apple-mobile-web-app-title" content="공황패스 SOS">
+<title>공황패스 SOS — 공황발작 대처 가이드</title>
 <link rel="manifest" href="manifest.json">
 <style>
 @font-face{
@@ -148,9 +150,32 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 .donemsg{margin-top:14px; padding:14px; border-radius:14px; text-align:center; background:rgba(61,92,77,.1); border:1px solid rgba(61,92,77,.24); font-size:.88rem; display:none;}
 .donemsg.on{display:block;}
 
-[lang-en]{display:none;}
-body.lang-en [lang-ko]{display:none;}
-body.lang-en [lang-en]{display:inline;}
+.practice-status{background:var(--day-card); border-radius:16px; padding:22px 16px; text-align:center; margin:14px 0; min-height:150px; display:flex; flex-direction:column; justify-content:center;}
+.practice-status .phase{font-size:.8rem; color:var(--day-sub); margin-bottom:8px;}
+.practice-status .action{font-size:1.18rem; font-weight:700; color:var(--day-ink);}
+.practice-status .count{font-size:.78rem; color:var(--day-sub); margin-top:10px;}
+.source-links{display:flex; flex-direction:column; gap:8px; margin-top:10px;}
+.source-links a{color:var(--day-accent); font-size:.8rem; text-decoration:underline; text-underline-offset:2px;}
+
+/* ===== 부담 없는 주의 전환 게임 ===== */
+.game-panel{background:var(--day-card); border-radius:16px; padding:16px; margin:14px 0;}
+.game-meta{display:flex; justify-content:space-between; gap:12px; align-items:center; color:var(--day-sub); font-size:.8rem; margin-bottom:12px;}
+.odd-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+.odd-cell{aspect-ratio:1; border:1px solid var(--line-day); border-radius:14px; background:rgba(255,255,255,.32); color:var(--day-accent); font-size:1.75rem; font-weight:700; cursor:pointer; font-family:inherit; min-width:44px; min-height:44px;}
+.odd-cell:active{transform:scale(.96);}
+.odd-cell.found{background:var(--day-accent); color:#fff;}
+.game-status{min-height:24px; margin-top:12px; color:var(--day-sub); font-size:.86rem; text-align:center;}
+.pair-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+.pair-card{aspect-ratio:1; border:1px solid var(--line-day); border-radius:14px; background:rgba(255,255,255,.32); color:var(--day-accent); font-size:1.9rem; cursor:pointer; font-family:inherit; min-width:44px; min-height:44px; transition:transform .16s ease, background .16s ease;}
+.pair-card:active{transform:scale(.96);}
+.pair-card.open{background:#f4f7f1;}
+.pair-card.matched{background:var(--day-card2); border-color:var(--day-accent);}
+.pair-card .pair-back{font-size:1.2rem; opacity:.65;}
+.game-note{background:rgba(61,92,77,.08); border-radius:12px; padding:11px 12px; color:var(--day-sub); font-size:.8rem; line-height:1.6; margin-top:12px;}
+
+[lang-en]{display:none !important;}
+body.lang-en [lang-ko]{display:none !important;}
+body.lang-en [lang-en]{display:revert !important;}
 </style>
 </head>
 <body>
@@ -180,10 +205,10 @@ body.lang-en [lang-en]{display:inline;}
       <button id="langKo" class="active" onclick="setLang('ko')">한</button>
       <button id="langEn" onclick="setLang('en')">EN</button>
     </div>
-    <h1 lang-ko>지금, 이 순간을 넘기기</h1>
-    <h1 lang-en>Getting through this moment</h1>
-    <p class="lead" lang-ko>식은땀이 나고 숨이 답답해도 — 이건 위험하지 않고, 몇 분이면 정점을 지나 저절로 내려갑니다. 이 앱과 함께라면 지금을 반드시 잘 넘어갈 수 있습니다.</p>
-    <p class="lead" lang-en>Even with cold sweat and shortness of breath — this is not dangerous, and it will peak and pass on its own within minutes. With this app, you can get through this.</p>
+    <h1 lang-ko>공황패스 SOS</h1>
+    <h1 lang-en>Panic Pass SOS</h1>
+    <p class="lead" lang-ko>이미 겪어온 공황과 비슷하다면, 이 강한 느낌은 대개 정점을 지나 내려갑니다. 처음이거나 평소와 다르다면 아래의 응급 기준을 먼저 확인하세요.</p>
+    <p class="lead" lang-en>If this feels like panic you have experienced before, the intensity will usually peak and ease. If it is new or different from usual, check the emergency signs below first.</p>
 
     <button class="btn sos" onclick="openSignage('emergency')">
       <span lang-ko>🆘 SOS</span>
@@ -194,8 +219,8 @@ body.lang-en [lang-en]{display:inline;}
       <span lang-en>Truly settle down, step by step →</span>
     </button>
 
-    <div class="stagelabel" lang-ko>몸부터 가라앉히기</div>
-    <div class="stagelabel" lang-en>Calm the body first</div>
+    <div class="stagelabel" lang-ko>숨과 감각으로 몸 달래기</div>
+    <div class="stagelabel" lang-en>Soothe the body with breath and sensation</div>
     <div class="menu">
       <div class="mcard" onclick="go('breath')">
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15c0-5 2-9 6-9s6 4 6 9-2 4-6 4-6 1-6-4Z"/></svg></div>
@@ -213,8 +238,8 @@ body.lang-en [lang-en]{display:inline;}
       </div>
     </div>
 
-    <div class="stagelabel" lang-ko>생각 다시잡기</div>
-    <div class="stagelabel" lang-en>Recapture your thoughts</div>
+    <div class="stagelabel" lang-ko>흔들리는 마음 붙잡기</div>
+    <div class="stagelabel" lang-en>Steady a shaken mind</div>
     <div class="menu">
       <div class="mcard" onclick="go('flash')">
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z"/></svg></div>
@@ -230,8 +255,34 @@ body.lang-en [lang-en]{display:inline;}
       </div>
     </div>
 
-    <div class="stagelabel" lang-ko>도움 되는 소리</div>
-    <div class="stagelabel" lang-en>Sounds that help</div>
+    <div class="stagelabel" lang-ko>긴장을 부드럽게 풀어주기</div>
+    <div class="stagelabel" lang-en>Let tension soften</div>
+    <div class="menu">
+      <div class="mcard" onclick="go('muscle')">
+        <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8c2-2 4-2 6 0s4 2 8-1M5 16c2 2 4 2 6 0s4-2 8 1"/><path d="M3 12h18"/></svg></div>
+        <div class="mbody"><h3 lang-ko>힘줬다 놓기</h3><h3 lang-en>Tense and release</h3><p lang-ko>전조 때 40초 근육 이완</p><p lang-en>A 40-second muscle release for early signs</p></div>
+      </div>
+      <div class="mcard" onclick="go('imagery')">
+        <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 3-3 6 6"/><path d="M3 5h18v14H3z"/><circle cx="16" cy="9" r="2"/></svg></div>
+        <div class="mbody"><h3 lang-ko>편안한 장면 붙잡기</h3><h3 lang-en>Hold a calming image</h3><p lang-ko>중립적이거나 편안한 장면에 주의 두기</p><p lang-en>Rest attention on a neutral or calming scene</p></div>
+      </div>
+    </div>
+
+    <div class="stagelabel" lang-ko>잠시 게임에 마음 두기</div>
+    <div class="stagelabel" lang-en>Rest your mind on a game</div>
+    <div class="menu">
+      <div class="mcard" onclick="go('oddgame')">
+        <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/><path d="M14 14h6v6h-6z"/></svg></div>
+        <div class="mbody"><h3 lang-ko>다른 하나 찾기</h3><h3 lang-en>Find the odd one</h3><p lang-ko>비슷한 모양 사이에서 하나 찾기</p><p lang-en>Spot one different shape</p></div>
+      </div>
+      <div class="mcard" onclick="go('pairgame')">
+        <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="8" height="8" rx="2"/><rect x="13" y="12" width="8" height="8" rx="2"/><path d="M7 16h3M16 8h1"/></svg></div>
+        <div class="mbody"><h3 lang-ko>같은 그림 찾기</h3><h3 lang-en>Find a pair</h3><p lang-ko>편안한 그림 세 쌍 맞추기</p><p lang-en>Match three gentle picture pairs</p></div>
+      </div>
+    </div>
+
+    <div class="stagelabel" lang-ko>편안한 소리에 기대기</div>
+    <div class="stagelabel" lang-en>Lean into calming sounds</div>
     <div class="menu">
       <div class="mcard" onclick="go('music')">
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
@@ -239,8 +290,8 @@ body.lang-en [lang-en]{display:inline;}
       </div>
     </div>
 
-    <div class="stagelabel" lang-ko>지나간 뒤</div>
-    <div class="stagelabel" lang-en>After it passes</div>
+    <div class="stagelabel" lang-ko>파도가 지나간 뒤</div>
+    <div class="stagelabel" lang-en>After the wave passes</div>
     <div class="menu">
       <div class="mcard" onclick="go('link')">
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
@@ -249,8 +300,8 @@ body.lang-en [lang-en]{display:inline;}
     </div>
 
     <div class="reassure">
-      <span lang-ko>이건 공황이다. 위험하지 않다. 지금까지 <b>100% 다 지나갔다.</b> 이번에도 지나간다.</span>
-      <span lang-en>This is panic. It is not dangerous. Every single time, it has <b>passed 100% of the time.</b> This time will too.</span>
+      <span lang-ko>평소와 같은 공황이라면, 이 파도도 강도가 변하고 내려갈 수 있습니다. 지금은 한 단계만 해보세요.</span>
+      <span lang-en>If this is your usual panic, this wave can change in intensity and ease. Try just one step for now.</span>
     </div>
 
     <div class="menu" style="margin-top:16px">
@@ -265,8 +316,9 @@ body.lang-en [lang-en]{display:inline;}
     </div>
 
     <div class="footer">
-      <span lang-ko>이 도구는 순간을 넘기기 위한 자가관리 보조 도구이며, 전문 치료를 대신하지 않습니다.<br>발작이 잦거나 일상에 지장이 있으면 정신건강의학과 상담을 함께 권합니다.<br>가슴 통증이 팔·턱으로 뻗치거나 가라앉지 않으면 심장 문제일 수 있으니 119에 연락하세요.<br><b>개인정보나 증상 기록은 이 기기 밖으로 나가지 않습니다.</b></span>
-      <span lang-en>This is a self-management aid for getting through the moment — it does not replace professional treatment.<br>If attacks are frequent or disrupt daily life, please also consult a psychiatrist.<br>If chest pain spreads to your arm or jaw, or doesn't ease, call emergency services.<br><b>No personal data or symptoms ever leave this device.</b></span>
+      <span lang-ko>이 도구는 순간을 넘기기 위한 자가관리 보조 도구이며, 전문 치료를 대신하지 않습니다.<br>발작이 잦거나 일상에 지장이 있으면 정신건강의학과 상담을 함께 권합니다.<br>처음 겪는 심한 증상, 실신, 한쪽 마비, 또는 팔·턱·등으로 뻗치는 가슴 통증이 가라앉지 않으면 119에 연락하세요.<br><b>개인정보나 증상 기록은 이 기기 밖으로 나가지 않습니다.</b></span>
+      <span lang-en>This is a self-management aid for getting through the moment — it does not replace professional treatment.<br>If attacks are frequent or disrupt daily life, please also consult a mental health professional.<br>Call emergency services for severe first-time symptoms, fainting, one-sided weakness, or chest pain spreading to the arm, jaw, or back that does not ease.<br><b>No personal data or symptoms ever leave this device.</b></span>
+      <br><a href="privacy_policy.html" style="color:var(--day-accent); text-underline-offset:2px;"><span lang-ko>개인정보처리방침 보기</span><span lang-en>Privacy policy</span></a>
     </div>
   </div>
 
@@ -285,8 +337,8 @@ body.lang-en [lang-en]{display:inline;}
       </button>
       <button class="obtn" onclick="route('mid')">
         <span lang-ko>불안이 올라오는 중이다 (전조)</span><span lang-en>Anxiety is rising (early signs)</span>
-        <small lang-ko>가벼운 개입부터 시작</small>
-        <small lang-en>Start with a light intervention</small>
+        <small lang-ko>짧은 근육 이완부터 시작</small>
+        <small lang-en>Start with a brief muscle release</small>
       </button>
       <button class="obtn" onclick="route('safe')">
         <span lang-ko>조금 진정됐다 / 되짚어보고 싶다</span><span lang-en>I've calmed down a bit</span>
@@ -295,8 +347,8 @@ body.lang-en [lang-en]{display:inline;}
       </button>
     </div>
     <div class="reassure" style="margin-top:18px">
-      <span lang-ko>지금 있는 곳은 안전합니다. 이 느낌은 몸의 오작동일 뿐, 실제 위험이 아닙니다.</span>
-      <span lang-en>Where you are right now is safe. This feeling is a false alarm from your body, not real danger.</span>
+      <span lang-ko>먼저 주변에 실제 위험이 없는지 확인하세요. 안전한 장소라면 앉거나 기대고, 한 단계씩 시작하세요.</span>
+      <span lang-en>First check for any real danger around you. If the place is safe, sit or lean somewhere and begin one step at a time.</span>
     </div>
   </div>
 
@@ -321,8 +373,8 @@ body.lang-en [lang-en]{display:inline;}
   <div id="cool" class="screen">
     <button class="back" onclick="go('home')">← <span lang-ko>처음으로</span><span lang-en>Home</span></button>
     <p class="stitle" lang-ko>찬 기운 쐬기</p><p class="stitle" lang-en>Cold sensation</p>
-    <p class="shint" lang-ko>찬 자극이 얼굴·목에 닿으면, 신경 반사로 심장 박동이 몇 초 안에 느려집니다.</p>
-    <p class="shint" lang-en>When something cold touches your face or neck, a nerve reflex can slow your heart rate within seconds.</p>
+    <p class="shint" lang-ko>차가운 감각은 일부 사람에게 몸의 각성에서 주의를 돌리고 진정할 틈을 만드는 데 도움이 될 수 있습니다.</p>
+    <p class="shint" lang-en>A cold sensation may help some people shift attention away from physical arousal and create a moment to settle.</p>
     <div class="card"><b lang-ko>찬물로 얼굴·손목 적시기</b><b lang-en>Splash cold water on your face or wrists</b></div>
     <div class="card"><b lang-ko>얼음·차가운 캔 쥐기</b><b lang-en>Hold ice or a cold can</b><div style="font-size:.8rem;color:var(--day-sub);margin-top:3px;"><span lang-ko>기내라면 승무원에게 얼음을 부탁하세요</span><span lang-en>On a flight, ask the crew for ice</span></div></div>
     <div class="card"><b lang-ko>찬 공기 마시기</b><b lang-en>Breathe in cold air</b></div>
@@ -330,6 +382,93 @@ body.lang-en [lang-en]{display:inline;}
     <p class="shint" style="background:var(--day-card); border-radius:12px; padding:12px;" lang-en>⚠️ Don't hold your breath. Keep breathing normally. If you have a heart condition, avoid submerging your face — just use it on your hands or neck.</p>
     <button class="btn" onclick="go('flash')"><span lang-ko>다음: 생각 다시잡기 →</span><span lang-en>Next: recapture your thoughts →</span></button>
     <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
+  </div>
+
+  <!-- ===== 적용 이완: 전조 때 짧게 힘줬다 놓기 ===== -->
+  <div id="muscle" class="screen">
+    <button class="back" onclick="go('home')">← <span lang-ko>처음으로</span><span lang-en>Home</span></button>
+    <p class="stitle" lang-ko>힘줬다 놓기</p><p class="stitle" lang-en>Tense and release</p>
+    <p class="shint" lang-ko>전조가 느껴질 때 어깨·손·발에 30% 정도만 부드럽게 힘을 줬다가 놓습니다. 긴장과 이완의 차이를 알아차리는 짧은 적용 이완입니다.</p>
+    <p class="shint" lang-en>At the first signs, gently tense your shoulders, hands, and feet to about 30%, then release. This is a brief form of applied relaxation that helps you notice the difference between tension and release.</p>
+    <div class="practice-status" aria-live="polite">
+      <div class="phase" id="mPhase"><span lang-ko>준비</span><span lang-en>Ready</span></div>
+      <div class="action" id="mAction"><span lang-ko>편하게 앉거나 기대세요</span><span lang-en>Sit or lean somewhere comfortable</span></div>
+      <div class="count"><span id="mCount">0</span> / 3</div>
+    </div>
+    <p class="shint" style="background:var(--day-card); border-radius:12px; padding:12px;">
+      <span lang-ko>통증이 있거나 몸의 감각에 집중할수록 불안해지면 힘을 주지 말고, 그냥 어깨와 손을 내려놓거나 다른 방법으로 넘어가세요.</span>
+      <span lang-en>If you have pain or focusing on body sensations increases anxiety, do not tense. Simply let your shoulders and hands drop, or switch to another method.</span>
+    </p>
+    <div class="donemsg" id="mDone"><span lang-ko>세 부위를 모두 놓았습니다. 효과를 확인하려 애쓰지 말고, 편해진 만큼만 두세요.</span><span lang-en>You released all three areas. Do not check whether it worked; let any amount of ease be enough.</span></div>
+    <button class="btn" id="mBtn" onclick="toggleMuscle()"><span lang-ko>40초 시작</span><span lang-en>Start 40 seconds</span></button>
+    <button class="btn" onclick="go('imagery')"><span lang-ko>다음: 편안한 장면 붙잡기 →</span><span lang-en>Next: hold a calming image →</span></button>
+    <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
+  </div>
+
+  <!-- ===== 편안하거나 중립적인 심상 ===== -->
+  <div id="imagery" class="screen">
+    <button class="back" onclick="go('home')">← <span lang-ko>처음으로</span><span lang-en>Home</span></button>
+    <p class="stitle" lang-ko>편안한 장면 붙잡기</p><p class="stitle" lang-en>Hold a calming image</p>
+    <p class="shint" lang-ko>실제로 가본 곳일 필요는 없습니다. 편안하거나 적어도 불편하지 않은 장면 하나를 고르고, 세부 한 가지씩만 천천히 떠올립니다.</p>
+    <p class="shint" lang-en>It does not need to be a real place. Choose a scene that feels calming, or at least neutral, and notice one small detail at a time.</p>
+    <div class="opt" id="iChoices">
+      <button class="obtn" onclick="startImagery('rain')"><span lang-ko>🌧️ 조용한 창가</span><span lang-en>🌧️ A quiet window</span></button>
+      <button class="obtn" onclick="startImagery('path')"><span lang-ko>🌿 한적한 길</span><span lang-en>🌿 A quiet path</span></button>
+      <button class="obtn" onclick="startImagery('cup')"><span lang-ko>☕ 따뜻한 컵을 든 자리</span><span lang-en>☕ A seat with a warm cup</span></button>
+    </div>
+    <div id="iGuide" class="practice-status" style="display:none" aria-live="polite">
+      <div class="phase"><span lang-ko>한 가지씩 보기</span><span lang-en>One detail at a time</span></div>
+      <div class="action" id="iText"></div>
+      <div class="count"><span id="iCount">1</span> / 4</div>
+    </div>
+    <button class="btn" id="iNext" onclick="nextImagery()" style="display:none"><span lang-ko>다음 세부 보기</span><span lang-en>Next detail</span></button>
+    <div class="donemsg" id="iDone"><span lang-ko>장면을 선명하게 만들 필요는 없습니다. 잠시 다른 곳에 주의를 둘 수 있었다면 충분합니다.</span><span lang-en>The image does not need to be vivid. Briefly resting attention somewhere else is enough.</span></div>
+    <p class="shint" style="background:var(--day-card); border-radius:12px; padding:12px; margin-top:14px;">
+      <span lang-ko>장면이 떠오르지 않거나 불편한 기억이 따라오면 바로 멈추고, 눈을 뜬 채 주변에 닻 내리기로 바꾸세요.</span>
+      <span lang-en>If no image comes, or an uncomfortable memory appears, stop and switch to grounding with your eyes open.</span>
+    </p>
+    <button class="btn" onclick="go('flash')"><span lang-ko>다음: 생각 다시잡기 →</span><span lang-en>Next: recapture your thoughts →</span></button>
+    <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
+  </div>
+
+  <!-- ===== 다른 하나 찾기 ===== -->
+  <div id="oddgame" class="screen">
+    <button class="back" onclick="go('home')">← <span lang-ko>처음으로</span><span lang-en>Home</span></button>
+    <p class="stitle" lang-ko>다른 하나 찾기</p><p class="stitle" lang-en>Find the odd one</p>
+    <p class="shint" lang-ko>비슷한 모양 사이에서 다른 하나를 찾아보세요. 시간제한도 점수도 없습니다.</p>
+    <p class="shint" lang-en>Find the one shape that is different. There is no timer and no score.</p>
+    <div class="game-panel">
+      <div class="game-meta">
+        <span><span lang-ko>단계</span><span lang-en>Round</span> <b id="oddRound">1</b> / 5</span>
+        <span lang-ko>서두르지 않아도 됩니다</span><span lang-en>Take your time</span>
+      </div>
+      <div id="oddGrid" class="odd-grid" role="group" aria-label="다른 모양 찾기"></div>
+      <div id="oddStatus" class="game-status" aria-live="polite"></div>
+    </div>
+    <div class="donemsg" id="oddDone"><span lang-ko>다섯 가지를 모두 찾았습니다. 잠시 화면에 집중했다면 그것으로 충분합니다.</span><span lang-en>You found all five. Briefly focusing on the screen is enough.</span></div>
+    <button class="btn" id="oddRestart" onclick="resetOddGame()" style="display:none"><span lang-ko>처음부터 다시</span><span lang-en>Play again</span></button>
+    <div class="game-note"><span lang-ko>이 게임은 치료가 아닌 선택형 주의 전환 도구입니다. 화면이 답답하거나 초조해지면 즉시 멈추고 다른 방법을 선택하세요.</span><span lang-en>This game is an optional attention-shifting tool, not treatment. Stop and choose another method if the screen makes you feel restless or uncomfortable.</span></div>
+    <button class="btn ghost" onclick="go('home')"><span lang-ko>그만하고 다른 방법 보기</span><span lang-en>Stop and see other methods</span></button>
+  </div>
+
+  <!-- ===== 같은 그림 찾기 ===== -->
+  <div id="pairgame" class="screen">
+    <button class="back" onclick="go('home')">← <span lang-ko>처음으로</span><span lang-en>Home</span></button>
+    <p class="stitle" lang-ko>같은 그림 찾기</p><p class="stitle" lang-en>Find a pair</p>
+    <p class="shint" lang-ko>카드를 두 장씩 열어 같은 그림 세 쌍을 찾아보세요. 틀려도 감점되지 않습니다.</p>
+    <p class="shint" lang-en>Open two cards at a time and find three pairs. There is no penalty for a mismatch.</p>
+    <div class="game-panel">
+      <div class="game-meta">
+        <span><span lang-ko>찾은 그림</span><span lang-en>Pairs found</span> <b id="pairCount">0</b> / 3</span>
+        <span lang-ko>천천히 찾아보세요</span><span lang-en>Take your time</span>
+      </div>
+      <div id="pairGrid" class="pair-grid" role="group" aria-label="같은 그림 찾기"></div>
+      <div id="pairStatus" class="game-status" aria-live="polite"></div>
+    </div>
+    <div class="donemsg" id="pairDone"><span lang-ko>세 쌍을 모두 찾았습니다. 잘하려고 애쓰지 않아도 됩니다. 잠시 다른 곳에 주의를 두었습니다.</span><span lang-en>You found all three pairs. There was nothing to prove; you simply gave your attention somewhere else for a moment.</span></div>
+    <button class="btn" id="pairRestart" onclick="resetPairGame()" style="display:none"><span lang-ko>카드 다시 섞기</span><span lang-en>Shuffle and play again</span></button>
+    <div class="game-note"><span lang-ko>이 게임은 치료가 아닌 선택형 주의 전환 도구입니다. 기억하려는 일이 부담스러우면 바로 그만해도 됩니다.</span><span lang-en>This game is an optional attention-shifting tool, not treatment. Stop at any time if remembering the cards feels demanding.</span></div>
+    <button class="btn ghost" onclick="go('home')"><span lang-ko>그만하고 다른 방법 보기</span><span lang-en>Stop and see other methods</span></button>
   </div>
 
   <!-- ===== 사실로 되받기 ===== -->
@@ -425,12 +564,12 @@ body.lang-en [lang-en]{display:inline;}
       </div>
     </div>
     <div class="card strong" style="text-align:center;">
-      <div style="font-size:1.05rem; font-weight:700;" lang-ko>이 느낌 때문에<br>죽지 않습니다.</div>
-      <div style="font-size:1.05rem; font-weight:700;" lang-en>This feeling<br>will not kill you.</div>
+      <div style="font-size:1.05rem; font-weight:700;" lang-ko>평소와 같은 공황발작 자체는<br>생명을 위협하지 않습니다.</div>
+      <div style="font-size:1.05rem; font-weight:700;" lang-en>A typical panic attack itself<br>is not life-threatening.</div>
     </div>
     <div class="card">
-      <span lang-ko>심장이 뛰는 건 아드레날린 때문이지 심장이 고장난 게 아닙니다. 지금까지 공황으로 죽은 사람은 없습니다. 이 몸의 반응은 몇 분 안에 반드시 저절로 가라앉습니다.</span>
-      <span lang-en>Your heart races because of adrenaline, not because it's broken. No one has ever died from a panic attack. This bodily response always settles on its own within minutes.</span>
+      <span lang-ko>공황발작 자체는 생명을 위협하지 않으며 신체 반응은 보통 시간이 지나며 가라앉습니다. 다만 처음이거나 평소와 다른 흉통·호흡곤란·실신 같은 증상은 다른 원인을 확인해야 합니다.</span>
+      <span lang-en>A panic attack itself is not life-threatening, and the physical response usually eases with time. However, first-time or unusual chest pain, breathing difficulty, or fainting needs assessment for other causes.</span>
     </div>
     <div class="card">
       <span lang-ko>왜 반복될까요? 한번 크게 놀란 몸은 비슷한 느낌만 와도 "또 위험하다"고 미리 경보를 울리기 쉬워집니다. 이게 공황이 반복되는 이유입니다 — 성격 문제도, 의지 부족도 아닙니다.</span>
@@ -456,18 +595,42 @@ body.lang-en [lang-en]{display:inline;}
       </div>
     </div>
 
-    <p class="shint" lang-ko>그래서 이 앱의 모든 기능은 상상이 아니라, 논문과 임상 가이드라인에 근거합니다. 아래를 눌러 자세히 볼 수 있습니다.</p>
-    <p class="shint" lang-en>So every feature here is grounded in published research and clinical guidelines, not guesswork. Tap any item below to read more.</p>
+    <p class="shint" lang-ko>이 앱은 논문과 임상 가이드라인을 참고해 만들었지만, 앱의 각 짧은 개입 자체가 임상시험으로 검증됐다는 뜻은 아닙니다. 아래에서 직접 근거와 한계를 함께 볼 수 있습니다.</p>
+    <p class="shint" lang-en>This app draws on research and clinical guidance, but that does not mean each brief in-app exercise has itself been clinically tested. Tap below to see the evidence and its limits.</p>
 
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>숨 내려놓기</div><div class="more" lang-ko>더보기 ›</div></div>
       <div class="basis" lang-ko>생리적 한숨 · 스탠퍼드대 2023 연구</div>
-      <div class="detail" lang-ko>짧게 두 번 들이쉬고 길게 내쉬는 "생리적 한숨"은 스탠퍼드 연구에서 명상이나 다른 호흡법보다 불안·기분 개선 효과가 컸습니다. 긴 날숨이 부교감신경(진정 시스템)을 켭니다.</div>
+      <div class="detail" lang-ko>스탠퍼드 연구에서는 참가자들이 하루 5분씩 한 달간 호흡법을 연습했고, 날숨 중심의 생리적 한숨 집단에서 기분과 호흡수 개선이 보고됐습니다. 급성 공황 중 앱의 짧은 버전을 직접 시험한 연구는 아닙니다.</div>
+    </div>
+    <div class="evbox" onclick="this.classList.toggle('open')">
+      <div class="h"><div class="name"><span lang-ko>힘줬다 놓기</span><span lang-en>Tense and release</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>적용 이완 · 공황장애 비교 임상시험 + 2024 체계적 문헌고찰</span><span lang-en>Applied relaxation · panic-disorder trials + 2024 systematic review</span></div>
+      <div class="detail">
+        <span lang-ko>적용 이완은 긴장의 초기 신호를 알아차리고 점점 짧은 시간 안에 몸의 힘을 놓도록 훈련하는 방법입니다. 공황장애 치료 비교시험이 있으며, 점진적 근육 이완에 관한 2024년 체계적 문헌고찰도 성인의 불안 감소 가능성을 보고했습니다. 다만 앱의 40초 버전 자체가 임상시험된 것은 아닙니다.</span>
+        <span lang-en>Applied relaxation trains people to notice early tension and release it in progressively shorter periods. It has been studied in comparative panic-disorder trials, and a 2024 systematic review found that progressive muscle relaxation may reduce adult anxiety. This app's 40-second adaptation has not itself been clinically tested.</span>
+      </div>
+    </div>
+    <div class="evbox" onclick="this.classList.toggle('open')">
+      <div class="h"><div class="name"><span lang-ko>편안한 장면 붙잡기</span><span lang-en>Hold a calming image</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>NHS 공황 자가대처 안내 · 유도 심상 불안 연구(간접 근거)</span><span lang-en>NHS panic self-help · guided-imagery anxiety research (indirect evidence)</span></div>
+      <div class="detail">
+        <span lang-ko>NHS 자가대처 자료는 공황 중 편안한 이미지에 주의를 두는 방법을 제안합니다. 유도 심상은 여러 불안 상황에서 연구됐지만 공황발작에 특화된 근거는 아직 제한적이므로, 이 앱에서는 선택 가능한 보조 방법으로만 제공합니다.</span>
+        <span lang-en>NHS self-help material suggests focusing on peaceful, relaxing images during panic. Guided imagery has been studied in several anxiety settings, but panic-specific evidence remains limited, so this app presents it only as an optional aid.</span>
+      </div>
+    </div>
+    <div class="evbox" onclick="this.classList.toggle('open')">
+      <div class="h"><div class="name"><span lang-ko>집중 게임 2종</span><span lang-en>Two focus games</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>캐주얼 게임·기능성 게임 불안 연구(간접 근거)</span><span lang-en>Casual- and serious-game anxiety research (indirect evidence)</span></div>
+      <div class="detail">
+        <span lang-ko>간단한 캐주얼 게임과 불안 대상 기능성 게임 연구에서는 불안·스트레스가 낮아질 가능성이 보고됐습니다. 그러나 급성 공황발작 중 이 두 게임의 효과를 직접 검증한 연구는 없습니다. 그래서 시간제한·점수·감점을 없애고, 치료가 아닌 선택형 주의 전환 도구로만 제공합니다.</span>
+        <span lang-en>Studies of simple casual games and serious games for anxiety suggest possible reductions in anxiety and stress. These two games have not been directly tested during acute panic attacks. They therefore have no timer, score, or penalty and are offered only as optional attention-shifting tools, not treatment.</span>
+      </div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>찬 기운 쐬기</div><div class="more" lang-ko>더보기 ›</div></div>
       <div class="basis" lang-ko>DBT TIPP 기법 · 잠수 반사</div>
-      <div class="detail" lang-ko>찬 자극이 얼굴·목에 닿으면 삼차신경에서 미주신경으로 신호가 전달되어 심박이 수 초 내에 느려집니다. 변증법적행동치료(DBT)의 위기대처 기법 중 하나입니다.</div>
+      <div class="detail" lang-ko>찬 자극은 변증법적행동치료(DBT)의 위기대처 기술에 포함됩니다. 다만 공황발작에 특화된 효과와 속도를 단정하기는 어려워, 이 앱에서는 일부 사람에게 주의를 전환할 수 있는 선택 방법으로 제공합니다.</div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>사실로 되받기</div><div class="more" lang-ko>더보기 ›</div></div>
@@ -477,12 +640,12 @@ body.lang-en [lang-en]{display:inline;}
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>파도 흘려보내기</div><div class="more" lang-ko>더보기 ›</div></div>
       <div class="basis" lang-ko>수용전념치료(ACT) · Steven Hayes</div>
-      <div class="detail" lang-ko>ACT는 창시자 스티븐 헤이즈가 자신의 공황장애를 해결하려다 만든 접근입니다. 증상과 싸우기보다 "지나가게 놔두는" 태도가 공황을 더 빨리 가라앉힌다는 근거가 있습니다.</div>
+      <div class="detail" lang-ko>ACT는 불편한 감각이나 생각을 즉시 없애려 하기보다 알아차리고 허용하면서 가치 있는 행동을 이어가는 접근입니다. 이 앱의 짧은 파도 애니메이션 자체가 공황을 더 빨리 낮춘다는 직접 근거는 없습니다.</div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>주변에 닻 내리기</div><div class="more" lang-ko>더보기 ›</div></div>
       <div class="basis" lang-ko>5-4-3-2-1 그라운딩 · 인지행동치료(CBT)</div>
-      <div class="detail" lang-ko>감각을 하나씩 확인하는 그라운딩은 급성 고통을 관리 가능한 수준으로 낮추는 안정화 기법입니다. 연구에서 발작 강도 감소와 지속시간 단축이 보고됐습니다.</div>
+      <div class="detail" lang-ko>감각을 하나씩 확인하는 그라운딩은 급성 고통과 해리 때 현재 환경으로 주의를 돌리는 안정화 기법입니다. 공황발작의 강도나 지속시간을 직접 줄인다는 근거는 제한적이므로 보조 방법으로 제공합니다.</div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>전체 진행 순서</div><div class="more" lang-ko>더보기 ›</div></div>
@@ -492,12 +655,12 @@ body.lang-en [lang-en]{display:inline;}
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>진정 음악 3종</div><div class="more" lang-ko>더보기 ›</div></div>
       <div class="basis" lang-ko>동조화(entrainment) · 60→50 BPM 점감</div>
-      <div class="detail" lang-ko>느린 리듬을 들으면 심박이 그 리듬 쪽으로 서서히 끌려 내려갑니다. "낮고 깊은 울림"은 몸이 긴장했을 때, "빗소리·파도소리"는 생각이 반복될 때(반추 관련 뇌활동 저하), "잔잔한 전자음"은 막연한 불안에 알파파 이완을 유도하도록 만들어졌습니다. 저작권은 개발자 본인 소유입니다.</div>
+      <div class="detail" lang-ko>음악과 자연음은 일부 불안 상황에서 이완을 돕는 보조 수단으로 연구됐지만, 세 종류의 소리가 특정 공황 증상에 각각 더 효과적이라는 직접 근거는 없습니다. 이 앱의 분류는 효과 보장이 아니라 사용자가 편한 소리를 고르기 위한 선택지입니다. 저작권은 개발자 본인 소유입니다.</div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name" lang-ko>방법을 매번 다르게</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>습관화(habituation) 방지</div>
-      <div class="detail" lang-ko>같은 자극을 반복하면 뇌가 둔감해져 효과가 줄어듭니다. 그래서 이 앱은 방법과 순서를 매번 조금씩 다르게 제시합니다.</div>
+      <div class="basis" lang-ko>선택권과 반복 사용성</div>
+      <div class="detail" lang-ko>사람마다 편한 방법이 다를 수 있어 SOS 순서를 조금씩 바꿉니다. 순서를 무작위로 바꾸는 것이 치료 효과를 높인다는 직접 근거는 없으며, 사용자가 맞지 않는 방법을 건너뛸 수 있게 하기 위한 설계입니다.</div>
     </div>
 
     <div style="border-top:1px solid var(--line-day); padding-top:12px; margin-top:6px;">
@@ -506,6 +669,19 @@ body.lang-en [lang-en]{display:inline;}
       </div>
       <div style="font-size:.78rem; color:var(--day-sub); line-height:1.7;" lang-en>
         This app draws on clinically validated theories including Dr. David Clark's (Oxford) cognitive model of panic, Dr. David Barlow's (Boston University) Panic Control Treatment, Dr. Steven Hayes's Acceptance and Commitment Therapy, and UK NICE clinical guidelines. This means these theories informed the design — it does not mean these researchers endorsed or reviewed this app.
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <b lang-ko>추가 방법·게임의 원문 근거</b><b lang-en>Sources for the added methods and games</b>
+      <div class="source-links">
+        <a href="https://pubmed.ncbi.nlm.nih.gov/8741719/" target="_blank" rel="noopener"><span lang-ko>공황장애: 인지치료와 적용 이완 비교 임상시험</span><span lang-en>Panic disorder: cognitive therapy versus applied relaxation</span></a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/38322293/" target="_blank" rel="noopener"><span lang-ko>점진적 근육 이완 2024 체계적 문헌고찰</span><span lang-en>2024 systematic review of progressive muscle relaxation</span></a>
+        <a href="https://www.keepingwellnwl.nhs.uk/self-help-resources/common-problems/panic-attacks" target="_blank" rel="noopener"><span lang-ko>NHS 공황발작 자가대처 안내</span><span lang-en>NHS panic-attack self-help guidance</span></a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/39845426/" target="_blank" rel="noopener"><span lang-ko>유도 심상과 불안: 무작위시험 체계적 문헌고찰</span><span lang-en>Guided imagery and anxiety: systematic review of randomized trials</span></a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/26192483/" target="_blank" rel="noopener"><span lang-ko>캐주얼 비디오게임과 불안: 무작위 대조 연구</span><span lang-en>Casual video games and anxiety: randomized controlled study</span></a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/32053021/" target="_blank" rel="noopener"><span lang-ko>캐주얼 비디오게임과 불안·스트레스: 체계적 문헌고찰</span><span lang-en>Casual video games, anxiety, and stress: systematic review</span></a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/35156932/" target="_blank" rel="noopener"><span lang-ko>불안 대상 기능성 게임: 체계적 문헌고찰·메타분석</span><span lang-en>Serious games for anxiety: systematic review and meta-analysis</span></a>
       </div>
     </div>
 
@@ -549,8 +725,8 @@ body.lang-en [lang-en]{display:inline;}
       <b style="color:var(--danger)" lang-ko>⚠️ 참고 — 이럴 땐 심장 문제일 수 있습니다</b>
       <b style="color:var(--danger)" lang-en>⚠️ Note — this could be a heart problem</b>
       <div style="font-size:.82rem; color:var(--day-sub); margin-top:4px;">
-        <span lang-ko>공황은 보통 진정 시도에 반응해 10~20분 내 내려갑니다. 가슴 압박감이 팔·턱·등으로 뻗치거나, 가라앉지 않고 심해지면 심장 문제일 수 있으니 망설이지 말고 119. 확인받고 안심하는 게 낫습니다.</span>
-        <span lang-en>Panic usually responds to calming and eases within 10-20 minutes. If chest pressure spreads to your arm, jaw, or back, or worsens instead of easing, it could be your heart — call emergency services without hesitation. It's always better to check and be reassured.</span>
+        <span lang-ko>많은 공황발작은 수분에서 수십 분 사이 강도가 달라지지만, 시간만으로 구분할 수는 없습니다. 처음 겪는 심한 증상, 실신, 한쪽 마비, 또는 가슴 압박감이 팔·턱·등으로 뻗치며 가라앉지 않으면 망설이지 말고 119에 연락하세요.</span>
+        <span lang-en>Many panic attacks change in intensity over minutes to tens of minutes, but timing alone cannot identify the cause. Call emergency services for severe first-time symptoms, fainting, one-sided weakness, or chest pressure spreading to the arm, jaw, or back that does not ease.</span>
       </div>
     </div>
     <button class="btn" onclick="go('home')"><span lang-ko>처음으로 돌아가기</span><span lang-en>Back to home</span></button>
@@ -562,23 +738,33 @@ body.lang-en [lang-en]{display:inline;}
 /* ===== 언어 토글 ===== */
 function setLang(l){
   document.body.classList.toggle('lang-en', l==='en');
+  document.documentElement.lang=l;
   document.getElementById('langKo').classList.toggle('active', l==='ko');
   document.getElementById('langEn').classList.toggle('active', l==='en');
+  document.getElementById('langKo').setAttribute('aria-pressed', l==='ko' ? 'true' : 'false');
+  document.getElementById('langEn').setAttribute('aria-pressed', l==='en' ? 'true' : 'false');
   try{ localStorage.setItem('panicapp_lang', l); }catch(e){}
 }
 (function initLang(){
   try{
     const saved = localStorage.getItem('panicapp_lang');
-    if(saved==='en') setLang('en');
-  }catch(e){}
+    setLang(saved==='en' ? 'en' : 'ko');
+  }catch(e){ setLang('ko'); }
 })();
 
 /* ===== 화면 전환 ===== */
 function go(id){
+  if(id!=='muscle' && typeof mRun!=='undefined' && mRun) resetMuscle();
+  if(id!=='oddgame' && typeof oddTimer!=='undefined' && oddTimer){ clearTimeout(oddTimer); oddTimer=null; }
+  if(id!=='pairgame' && typeof pairTimer!=='undefined' && pairTimer){ clearTimeout(pairTimer); pairTimer=null; }
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   window.scrollTo(0,0);
   if(id==='breath') resetBreath();
+  if(id==='muscle') resetMuscle();
+  if(id==='imagery') resetImagery();
+  if(id==='oddgame') resetOddGame();
+  if(id==='pairgame') resetPairGame();
   if(id==='ground') startGround();
   if(id==='flash') startFlash();
   if(id==='wave') startWave();
@@ -587,7 +773,7 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 
 function route(level){
   if(level==='high') openSignage('guided');
-  else if(level==='mid') go('breath');
+  else if(level==='mid') go('muscle');
   else go('flash');
 }
 
@@ -628,14 +814,235 @@ function bCycle(){ if(!bRun) return;
   },1600));
 }
 
+/* ===== 적용 이완: 전조 때 짧게 힘줬다 놓기 ===== */
+let mRun=false, mPos=0, mTimer=null;
+const muscleSteps=[
+  {ko:'어깨를 귀 쪽으로 살짝 올리기', en:'Gently lift your shoulders'},
+  {ko:'양손을 부드럽게 쥐기', en:'Gently close both hands'},
+  {ko:'두 발로 바닥을 살짝 누르기', en:'Gently press both feet into the floor'}
+];
+function resetMuscle(){
+  mRun=false; mPos=0;
+  if(mTimer){ clearTimeout(mTimer); mTimer=null; }
+  const en=document.body.classList.contains('lang-en');
+  document.getElementById('mPhase').textContent=en?'Ready':'준비';
+  document.getElementById('mAction').textContent=en?'Sit or lean somewhere comfortable':'편하게 앉거나 기대세요';
+  document.getElementById('mCount').textContent='0';
+  document.getElementById('mDone').classList.remove('on');
+  document.getElementById('mBtn').textContent=en?'Start 40 seconds':'40초 시작';
+}
+function toggleMuscle(){
+  if(mRun){ resetMuscle(); return; }
+  mRun=true; mPos=0;
+  document.getElementById('mDone').classList.remove('on');
+  document.getElementById('mBtn').textContent=document.body.classList.contains('lang-en')?'Stop':'멈추기';
+  runMuscleStep();
+}
+function runMuscleStep(){
+  if(!mRun) return;
+  const en=document.body.classList.contains('lang-en');
+  if(mPos>=muscleSteps.length){
+    mRun=false; mTimer=null;
+    document.getElementById('mPhase').textContent=en?'Finished':'마침';
+    document.getElementById('mAction').textContent=en?'Let the body rest as it is':'몸을 그대로 쉬게 두세요';
+    document.getElementById('mBtn').textContent=en?'Start again':'다시 시작';
+    document.getElementById('mDone').classList.add('on');
+    return;
+  }
+  const step=muscleSteps[mPos];
+  document.getElementById('mPhase').textContent=en?'Tense gently for 4 seconds':'4초 동안 30%만 힘주기';
+  document.getElementById('mAction').textContent=en?step.en:step.ko;
+  mTimer=setTimeout(()=>{
+    if(!mRun) return;
+    document.getElementById('mPhase').textContent=en?'Release for 8 seconds':'8초 동안 힘 놓기';
+    document.getElementById('mAction').textContent=en?'Let it drop — no need to check':'툭 놓기 — 확인하지 않기';
+    document.getElementById('mCount').textContent=String(mPos+1);
+    mTimer=setTimeout(()=>{ mPos++; runMuscleStep(); },8000);
+  },4000);
+}
+
+/* ===== 편안하거나 중립적인 장면에 주의 두기 ===== */
+let iScene='', iPos=0;
+const imageryPrompts={
+  rain:{
+    ko:['창밖이나 유리 위의 색 하나를 봅니다','작은 빗소리 하나만 떠올립니다','공기의 온도를 한 가지만 느껴봅니다','의자나 바닥이 몸을 받치는 감각을 함께 둡니다'],
+    en:['Notice one color beyond or on the window','Imagine just one small sound of rain','Notice one quality of the air temperature','Also notice the chair or floor supporting you']
+  },
+  path:{
+    ko:['길 주변의 색 하나를 봅니다','멀리서 들리는 소리 하나를 둡니다','공기가 피부에 닿는 느낌 하나를 둡니다','발밑이 몸을 받치는 감각을 함께 둡니다'],
+    en:['Notice one color beside the path','Place one distant sound in the scene','Notice one feeling of air on the skin','Also notice the ground supporting your feet']
+  },
+  cup:{
+    ko:['컵이나 주변의 색 하나를 봅니다','주변의 조용한 소리 하나를 둡니다','손에 닿는 온도를 편한 만큼만 떠올립니다','의자가 몸을 받치는 감각을 함께 둡니다'],
+    en:['Notice one color on the cup or nearby','Place one quiet sound in the scene','Imagine a comfortable amount of warmth in your hands','Also notice the chair supporting you']
+  }
+};
+function resetImagery(){
+  iScene=''; iPos=0;
+  document.getElementById('iChoices').style.display='flex';
+  document.getElementById('iGuide').style.display='none';
+  document.getElementById('iNext').style.display='none';
+  document.getElementById('iDone').classList.remove('on');
+}
+function startImagery(scene){
+  iScene=scene; iPos=0;
+  document.getElementById('iChoices').style.display='none';
+  document.getElementById('iGuide').style.display='flex';
+  document.getElementById('iNext').style.display='block';
+  document.getElementById('iDone').classList.remove('on');
+  renderImagery();
+}
+function renderImagery(){
+  const en=document.body.classList.contains('lang-en');
+  const prompts=imageryPrompts[iScene][en?'en':'ko'];
+  document.getElementById('iText').textContent=prompts[iPos];
+  document.getElementById('iCount').textContent=String(iPos+1);
+  document.getElementById('iNext').textContent=en?(iPos===prompts.length-1?'Finish':'Next detail'):(iPos===prompts.length-1?'마치기':'다음 세부 보기');
+}
+function nextImagery(){
+  if(!iScene) return;
+  const prompts=imageryPrompts[iScene].ko;
+  if(iPos>=prompts.length-1){
+    document.getElementById('iNext').style.display='none';
+    document.getElementById('iDone').classList.add('on');
+    return;
+  }
+  iPos++; renderImagery();
+}
+
+/* ===== 게임 1: 다른 하나 찾기 ===== */
+const oddPatterns=[
+  {base:'●', odd:'◆', baseKo:'동그라미', oddKo:'마름모', baseEn:'circle', oddEn:'diamond'},
+  {base:'✦', odd:'★', baseKo:'네 갈래 별', oddKo:'별', baseEn:'four-point star', oddEn:'star'},
+  {base:'▲', odd:'●', baseKo:'세모', oddKo:'동그라미', baseEn:'triangle', oddEn:'circle'},
+  {base:'■', odd:'▰', baseKo:'정사각형', oddKo:'긴 사각형', baseEn:'square', oddEn:'rectangle'},
+  {base:'♥', odd:'♠', baseKo:'하트', oddKo:'스페이드', baseEn:'heart', oddEn:'spade'}
+];
+let oddRound=0, oddAnswer=-1, oddLocked=false, oddTimer=null;
+function resetOddGame(){
+  if(oddTimer){ clearTimeout(oddTimer); oddTimer=null; }
+  oddRound=0; oddLocked=false;
+  document.getElementById('oddDone').classList.remove('on');
+  document.getElementById('oddRestart').style.display='none';
+  renderOddRound();
+}
+function renderOddRound(){
+  const en=document.body.classList.contains('lang-en');
+  const pattern=oddPatterns[oddRound];
+  oddAnswer=Math.floor(Math.random()*9);
+  oddLocked=false;
+  document.getElementById('oddRound').textContent=String(oddRound+1);
+  document.getElementById('oddStatus').textContent=en?'Look slowly, one shape at a time.':'한 칸씩 천천히 살펴보세요.';
+  const grid=document.getElementById('oddGrid'); grid.innerHTML='';
+  for(let i=0;i<9;i++){
+    const isOdd=i===oddAnswer;
+    const button=document.createElement('button');
+    button.className='odd-cell';
+    button.type='button';
+    button.textContent=isOdd?pattern.odd:pattern.base;
+    const shapeName=en?(isOdd?pattern.oddEn:pattern.baseEn):(isOdd?pattern.oddKo:pattern.baseKo);
+    button.setAttribute('aria-label',(en?'Cell ':'칸 ')+(i+1)+', '+shapeName);
+    button.onclick=()=>pickOdd(i,button);
+    grid.appendChild(button);
+  }
+}
+function pickOdd(index,button){
+  if(oddLocked) return;
+  const en=document.body.classList.contains('lang-en');
+  if(index!==oddAnswer){
+    document.getElementById('oddStatus').textContent=en?'That one matches the others. Keep looking slowly.':'이 모양은 다른 것과 같습니다. 천천히 더 살펴보세요.';
+    return;
+  }
+  oddLocked=true;
+  button.classList.add('found');
+  document.getElementById('oddStatus').textContent=en?'Found it.':'찾았습니다.';
+  if(oddRound>=oddPatterns.length-1){
+    document.getElementById('oddDone').classList.add('on');
+    document.getElementById('oddRestart').style.display='block';
+    return;
+  }
+  oddTimer=setTimeout(()=>{ oddRound++; oddTimer=null; renderOddRound(); },550);
+}
+
+/* ===== 게임 2: 같은 그림 찾기 ===== */
+const pairPictures=[
+  {key:'leaf', icon:'🌿', ko:'잎', en:'leaf'},
+  {key:'cloud', icon:'☁️', ko:'구름', en:'cloud'},
+  {key:'cup', icon:'☕', ko:'따뜻한 컵', en:'warm cup'}
+];
+let pairCards=[], pairOpen=[], pairMatched=0, pairLocked=false, pairTimer=null;
+function resetPairGame(){
+  if(pairTimer){ clearTimeout(pairTimer); pairTimer=null; }
+  pairOpen=[]; pairMatched=0; pairLocked=false;
+  pairCards=shuffle(pairPictures.flatMap((picture,index)=>[
+    {...picture,id:index+'a',open:false,matched:false},
+    {...picture,id:index+'b',open:false,matched:false}
+  ]));
+  document.getElementById('pairCount').textContent='0';
+  document.getElementById('pairDone').classList.remove('on');
+  document.getElementById('pairRestart').style.display='none';
+  document.getElementById('pairStatus').textContent=document.body.classList.contains('lang-en')?'Turn over any two cards.':'아무 카드나 두 장 열어보세요.';
+  const grid=document.getElementById('pairGrid'); grid.innerHTML='';
+  pairCards.forEach((card,index)=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='pair-card';
+    button.dataset.id=card.id;
+    button.onclick=()=>openPairCard(index);
+    grid.appendChild(button);
+  });
+  updatePairCards();
+}
+function updatePairCards(){
+  const en=document.body.classList.contains('lang-en');
+  document.querySelectorAll('#pairGrid .pair-card').forEach((button,index)=>{
+    const card=pairCards[index];
+    const visible=card.open||card.matched;
+    button.classList.toggle('open',card.open&&!card.matched);
+    button.classList.toggle('matched',card.matched);
+    button.innerHTML=visible?card.icon:'<span class="pair-back">✦</span>';
+    button.setAttribute('aria-pressed',visible?'true':'false');
+    button.setAttribute('aria-label',visible?(en?card.en:card.ko):((en?'Turn over card ':'카드 열기 ')+(index+1)));
+  });
+}
+function openPairCard(index){
+  if(pairLocked) return;
+  const card=pairCards[index];
+  if(card.open||card.matched) return;
+  card.open=true; pairOpen.push(index); updatePairCards();
+  if(pairOpen.length<2) return;
+  const en=document.body.classList.contains('lang-en');
+  const first=pairCards[pairOpen[0]], second=pairCards[pairOpen[1]];
+  if(first.key===second.key){
+    first.matched=true; second.matched=true; first.open=false; second.open=false;
+    pairOpen=[]; pairMatched++;
+    document.getElementById('pairCount').textContent=String(pairMatched);
+    document.getElementById('pairStatus').textContent=en?'A pair. Choose two more cards.':'한 쌍을 찾았습니다. 다른 카드 두 장을 열어보세요.';
+    updatePairCards();
+    if(pairMatched===pairPictures.length){
+      document.getElementById('pairStatus').textContent=en?'All pairs found.':'모든 그림을 찾았습니다.';
+      document.getElementById('pairDone').classList.add('on');
+      document.getElementById('pairRestart').style.display='block';
+    }
+    return;
+  }
+  pairLocked=true;
+  document.getElementById('pairStatus').textContent=en?'Different pictures. They will turn back gently.':'서로 다른 그림입니다. 잠시 보고 있으면 다시 닫힙니다.';
+  pairTimer=setTimeout(()=>{
+    first.open=false; second.open=false; pairOpen=[]; pairLocked=false; pairTimer=null;
+    updatePairCards();
+    document.getElementById('pairStatus').textContent=en?'Choose any two cards.':'다시 아무 카드나 두 장 열어보세요.';
+  },750);
+}
+
 /* ===== 사실로 되받기 ===== */
 const flashCards=[
-  {qk:'"심장이 미친 듯이 뛴다"', ak:'아드레날린 때문이다. 심장이 고장난 게 아니다.', qe:'"My heart is racing wildly"', ae:'That is adrenaline, not a broken heart.'},
-  {qk:'"숨이 막혀 죽을 것 같다"', ak:'공황으로 질식하지 않는다. 몸은 계속 숨을 쉬고 있다.', qe:"I can't breathe, I'm going to die", ae:'You cannot suffocate from panic. Your body keeps breathing.'},
-  {qk:'"벗어날 방법이 없다"', ak:'출구는 있다. 지금까지 100% 다 지나갔다.', qe:"There's no way out", ae:'There is a way out. It has passed 100% of the time so far.'},
-  {qk:'"이러다 미쳐버릴 것 같다"', ak:'공황으로 미치거나 쓰러진 사람은 없다.', qe:"I'm going to lose my mind", ae:'No one has ever gone crazy or collapsed from panic.'},
-  {qk:'"영원히 계속될 것 같다"', ak:'20~30분이면 정점을 지나 저절로 내려간다.', qe:'"This will never end"', ae:'It peaks and eases on its own within 20-30 minutes.'},
-  {qk:'"내가 통제를 잃었다"', ak:'이 느낌은 몸의 오작동일 뿐, 나는 안전하다.', qe:"I've lost control", ae:'This is just your body misfiring — you are safe.'}
+  {qk:'"심장이 미친 듯이 뛴다"', ak:'평소 공황과 같은 양상이라면 아드레날린이 심박을 올릴 수 있다.', qe:'"My heart is racing wildly"', ae:'If this matches my usual panic, adrenaline can raise my heart rate.'},
+  {qk:'"숨이 막혀 죽을 것 같다"', ak:'공황의 빠른 호흡은 질식감처럼 느껴질 수 있다. 평소와 다른 호흡곤란이면 도움을 구한다.', qe:"I can't breathe, I'm going to die", ae:'Fast breathing during panic can feel like choking. I will seek help if this breathing difficulty is unusual.'},
+  {qk:'"벗어날 방법이 없다"', ak:'이 감정은 영원히 같은 강도로 머물지 않는다. 지금은 한 단계만 한다.', qe:"There's no way out", ae:'This feeling will not stay at the same intensity forever. I only need one step now.'},
+  {qk:'"이러다 미쳐버릴 것 같다"', ak:'미칠 것 같은 느낌은 통제를 잃고 있다는 증거가 아니다.', qe:"I'm going to lose my mind", ae:'Feeling as if I might lose my mind is not evidence that I am losing control.'},
+  {qk:'"영원히 계속될 것 같다"', ak:'공황의 강도는 대개 시간이 지나며 변한다. 평소와 다르거나 계속 악화되면 도움을 구한다.', qe:'"This will never end"', ae:'Panic intensity usually changes with time. If this is unusual or keeps worsening, I will seek help.'},
+  {qk:'"내가 통제를 잃었다"', ak:'강한 경보 반응을 느끼고 있지만, 지금 할 수 있는 한 단계가 있다.', qe:"I've lost control", ae:'I am feeling a strong alarm response, and there is still one step I can take.'}
 ];
 let fIdx=0, fOrder=[];
 function startFlash(){ fIdx=0; fOrder=shuffle(flashCards);
@@ -752,6 +1159,10 @@ const sgLibrary={
   ground:{
     pic:()=>'<div class="sg-icon-lg sg-pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div>',
     wordKo:'보이는 것 5개 찾기', wordEn:'Find 5 things you can see'
+  },
+  relax:{
+    pic:()=>'<div class="sg-icon-lg sg-pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8c2-2 4-2 6 0s4 2 8-1M5 16c2 2 4 2 6 0s4-2 8 1"/><path d="M3 12h18"/></svg></div>',
+    wordKo:'어깨와 손 — 힘 놓기', wordEn:'Shoulders and hands — release'
   }
 };
 
@@ -765,7 +1176,7 @@ function openSignage(mode){
   sgMode=mode;
   document.getElementById('signage').classList.add('on');
   if(mode==='emergency'){
-    sgSteps = shuffle(['breathe','cold','wave','fact','ground']);
+    sgSteps = shuffle(['breathe','cold','relax','wave','fact','ground']);
   } else {
     sgSteps = ['choice']; // 가이드모드는 증상선택부터 시작
   }
@@ -806,9 +1217,9 @@ function renderSg(){
 }
 function sgChoice(kind){
   // 선택 결과에 따라 몸진정→생각교정 순서로 단계 구성 (가이드모드 핵심)
-  if(kind==='heart') sgSteps=['choice','cold','breathe','fact','wave','ground'];
-  else if(kind==='thought') sgSteps=['choice','breathe','fact','wave','ground'];
-  else sgSteps=['choice','breathe','wave','fact','ground'];
+  if(kind==='heart') sgSteps=['choice','cold','breathe','relax','fact','wave','ground'];
+  else if(kind==='thought') sgSteps=['choice','breathe','relax','fact','wave','ground'];
+  else sgSteps=['choice','relax','breathe','wave','fact','ground'];
   sgPos=1;
   renderSg();
 }

@@ -1,8 +1,0 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.guwopabdurrahman31ui.nopanic",
-    "sha256_cert_fingerprints": ["51:1C:91:60:E8:0B:67:BC:4B:A5:28:9B:10:5F:17:03:53:20:32:9C:D4:A9:61:33:6C:70:31:A8:7A:2A:69:41"]
-  }
-}]

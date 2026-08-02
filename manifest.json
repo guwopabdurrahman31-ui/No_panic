@@ -1,7 +1,7 @@
 {
-  "name": "넘기기 — 공황 대처",
-  "short_name": "넘기기",
-  "description": "공황 발작 순간을 넘기기 위한 자가관리 도구. 오프라인에서도 작동하며 개인정보는 기기 밖으로 나가지 않습니다.",
+  "name": "공황패스 SOS — 공황발작 대처 가이드",
+  "short_name": "공황패스 SOS",
+  "description": "공황의 순간을 한 단계씩 건너기 위한 자가관리 도구. 오프라인에서도 작동하며 개인정보는 기기 밖으로 나가지 않습니다.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
