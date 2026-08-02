@@ -6,7 +6,7 @@
 - 앱 이름: `공황패스 SOS`
 - 앱 또는 게임: 앱
 - 무료 또는 유료: 무료
-- 패키지: `com.guwopabdurrahman31ui.nopanic`
+- 패키지: `com.guwopabdurrahman31ui.panicpasssos`
 
 ## 스토어 등록정보
 

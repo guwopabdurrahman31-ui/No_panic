@@ -7,7 +7,7 @@
 - 인증서: `play-store/release/upload_certificate.pem`
 - SHA-256 지문: `DC:2A:19:14:62:CA:E9:EC:41:DF:D2:D0:31:E7:42:D7:2C:36:B9:70:F7:0B:3B:AF:8C:6F:EE:7D:8C:A5:5F:DE`
 - 비밀번호 저장 위치: macOS 로그인 키체인
-- 키체인 서비스 이름: `com.guwopabdurrahman31ui.nopanic.upload-key`
+- 키체인 서비스 이름: `com.guwopabdurrahman31ui.panicpasssos.upload-key`
 
 비밀번호는 저장소나 문서에 기록하지 않았습니다. macOS의 `키체인 접근` 앱에서 위 서비스 이름을 검색해 확인할 수 있습니다. 키 파일과 키체인 암호를 서로 다른 안전한 장소에 백업하세요.
 

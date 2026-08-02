@@ -4,7 +4,7 @@
 
 - 앱 표시 이름: `공황패스 SOS`
 - Play 스토어 제목: `공황패스 SOS - 공황발작 대처`
-- 패키지 이름: `com.guwopabdurrahman31ui.nopanic`
+- 패키지 이름: `com.guwopabdurrahman31ui.panicpasssos`
 - 버전 이름: `1.0.0`
 - 버전 코드: `4`
 - 카테고리: `건강/운동(Health & Fitness)`

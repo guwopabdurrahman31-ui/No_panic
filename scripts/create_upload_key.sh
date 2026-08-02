@@ -5,7 +5,7 @@ PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 JAVA_HOME="${JAVA_HOME:-/Applications/Android Studio.app/Contents/jbr/Contents/Home}"
 KEYTOOL="$JAVA_HOME/bin/keytool"
 KEYSTORE_PATH="$PROJECT_DIR/play-store/signing/panicpass-upload.jks"
-KEYCHAIN_SERVICE="com.guwopabdurrahman31ui.nopanic.upload-key"
+KEYCHAIN_SERVICE="com.guwopabdurrahman31ui.panicpasssos.upload-key"
 KEYCHAIN_ACCOUNT="${USER:?USER is required}"
 
 mkdir -p "$PROJECT_DIR/play-store/signing"
