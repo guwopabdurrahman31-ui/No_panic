@@ -123,6 +123,11 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 .sg-nav .mid{flex:2; background:var(--night-card); color:var(--night-ink); font-size:1.3rem; font-weight:700;}
 .sg-nav button:active{filter:brightness(1.15);}
 
+/* 나를 도와주세요 — 엄지로 바로 누르도록 하단 고정, sg-nav 바로 위 */
+.sg-faa-dock{position:absolute; left:0; right:0; bottom:96px; display:flex; justify-content:center; padding:10px 16px; z-index:2;}
+.sg-faa-dock button{width:100%; max-width:420px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22); border-radius:16px; color:var(--night-ink); font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit; min-height:52px; display:flex; align-items:center; justify-content:center; gap:8px;}
+.sg-faa-dock button:active{filter:brightness(1.15);}
+
 .sg-breath{width:130px; height:130px; border-radius:50%; background:rgba(169,201,182,.22); border:3px solid var(--night-accent); animation:sgbr 11.6s ease-in-out infinite;}
 @keyframes sgbr{0%{transform:scale(.6);}14%{transform:scale(1);}22%{transform:scale(1.12);}24%{transform:scale(1.12);}75%{transform:scale(.6);}100%{transform:scale(.6);}}
 .sg-wave{width:170px; height:170px; position:relative;}
@@ -196,11 +201,13 @@ body.lang-en [lang-en]{display:revert !important;}
 <div id="signage">
   <button class="sg-close" onclick="closeSignage()" aria-label="닫기">✕</button>
   <div class="sg-dots" id="sgDots"></div>
-  <button id="sgFaaBtn" onclick="openFaaFromSignage()" style="position:absolute; top:14px; left:14px; background:rgba(255,255,255,.08); border:none; border-radius:20px; color:var(--night-sub); font-size:.85rem; font-weight:700; cursor:pointer; min-height:40px; padding:0 14px 0 10px; display:flex; align-items:center; gap:6px;" aria-label="나를 도와주세요 — 승무원·주변 사람에게 보여주기">
-    <span style="font-size:1.3rem;">🧑‍✈️</span>
-    <span lang-ko>나를 도와주세요</span><span lang-en>Help me</span>
-  </button>
   <div id="sgBody"></div>
+  <div class="sg-faa-dock">
+    <button id="sgFaaBtn" onclick="openFaaFromSignage()" aria-label="나를 도와주세요 — 승무원·주변 사람에게 보여주기">
+      <span style="font-size:1.3rem;">🧑‍✈️</span>
+      <span lang-ko>나를 도와주세요</span><span lang-en>Help me</span>
+    </button>
+  </div>
   <div class="sg-nav" id="sgNav">
     <button onclick="sgPrev()" aria-label="이전">‹</button>
     <button class="mid" id="sgMidBtn" onclick="sgNext()">됐어요</button>
@@ -1204,6 +1211,7 @@ function renderSg(){
   const en=document.body.classList.contains('lang-en');
   const body=document.getElementById('sgBody');
   const nav=document.getElementById('sgNav');
+  const faaDock=document.querySelector('.sg-faa-dock');
   const step=sgSteps[sgPos];
   const dots=document.getElementById('sgDots'); dots.innerHTML='';
   sgSteps.forEach((_,i)=>{ const d=document.createElement('i'); if(i===sgPos)d.className='act'; dots.appendChild(d); });
@@ -1216,8 +1224,10 @@ function renderSg(){
       '<button onclick="sgChoice(&quot;vague&quot;)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4v16M4 12h16"/></svg><span class="t">'+(en?'Just anxious':'그냥 불안하다')+'</span></button>'+
       '</div>';
     nav.style.display='none';
+    if(faaDock) faaDock.style.display='none';
     return;
   }
+  if(faaDock) faaDock.style.display = (step==='faacard') ? 'none' : 'flex';
   if(step==='faacard'){
     renderFaaCard(body);
     nav.style.display='flex';
