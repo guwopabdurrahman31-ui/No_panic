@@ -123,10 +123,10 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 .sg-nav .mid{flex:2; background:var(--night-card); color:var(--night-ink); font-size:1.3rem; font-weight:700;}
 .sg-nav button:active{filter:brightness(1.15);}
 
-/* 나를 도와주세요 — 엄지로 바로 누르도록 하단 고정, sg-nav 바로 위 */
-.sg-faa-dock{position:absolute; left:0; right:0; bottom:96px; display:flex; justify-content:center; padding:10px 16px; z-index:2;}
-.sg-faa-dock button{width:100%; max-width:420px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22); border-radius:16px; color:var(--night-ink); font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit; min-height:52px; display:flex; align-items:center; justify-content:center; gap:8px;}
-.sg-faa-dock button:active{filter:brightness(1.15);}
+/* 나를 도와주세요 — 좌측 상단, 눈에 띄게 */
+.sg-faa-dock{position:absolute; top:14px; left:14px; z-index:2;}
+.sg-faa-dock button{background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.32); border-radius:14px; color:var(--night-ink); font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; min-height:44px; padding:0 16px 0 12px; display:flex; align-items:center; gap:7px; white-space:nowrap;}
+.sg-faa-dock button:active{filter:brightness(1.2);}
 
 .sg-breath{width:130px; height:130px; border-radius:50%; background:rgba(169,201,182,.22); border:3px solid var(--night-accent); animation:sgbr 11.6s ease-in-out infinite;}
 @keyframes sgbr{0%{transform:scale(.6);}14%{transform:scale(1);}22%{transform:scale(1.12);}24%{transform:scale(1.12);}75%{transform:scale(.6);}100%{transform:scale(.6);}}
@@ -201,13 +201,13 @@ body.lang-en [lang-en]{display:revert !important;}
 <div id="signage">
   <button class="sg-close" onclick="closeSignage()" aria-label="닫기">✕</button>
   <div class="sg-dots" id="sgDots"></div>
-  <div id="sgBody"></div>
   <div class="sg-faa-dock">
     <button id="sgFaaBtn" onclick="openFaaFromSignage()" aria-label="나를 도와주세요 — 승무원·주변 사람에게 보여주기">
       <span style="font-size:1.3rem;">🧑‍✈️</span>
       <span lang-ko>나를 도와주세요</span><span lang-en>Help me</span>
     </button>
   </div>
+  <div id="sgBody"></div>
   <div class="sg-nav" id="sgNav">
     <button onclick="sgPrev()" aria-label="이전">‹</button>
     <button class="mid" id="sgMidBtn" onclick="sgNext()">됐어요</button>
@@ -272,6 +272,10 @@ body.lang-en [lang-en]{display:revert !important;}
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div>
         <div class="mbody"><h3 lang-ko>주변에 닻 내리기</h3><h3 lang-en>Anchor to your surroundings</h3><p lang-ko>지금 여기로 주의 돌리기</p><p lang-en>Bring attention to the here and now</p></div>
       </div>
+      <div class="mcard" onclick="go('label')">
+        <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-9.5-8.5C.5 7.5 3 4 6.5 4c2 0 3.5 1.2 4.5 2.7C12 5.2 13.5 4 15.5 4 19 4 21.5 7.5 20.5 11.5 18 15.65 12 20 12 20Z"/></svg></div>
+        <div class="mbody"><h3 lang-ko>감정에 이름 붙이기</h3><h3 lang-en>Name the feeling</h3><p lang-ko>지금 느낌을 말로 콕 집기</p><p lang-en>Put today's feeling into words</p></div>
+      </div>
     </div>
 
     <div class="stagelabel" lang-ko>긴장을 부드럽게 풀어주기</div>
@@ -302,16 +306,10 @@ body.lang-en [lang-en]{display:revert !important;}
 
     <div class="stagelabel" lang-ko>편안한 소리에 기대기</div>
     <div class="stagelabel" lang-en>Lean into calming sounds</div>
-    <div class="menu">
-      <div class="mcard" onclick="go('music')">
+    <div class="menu menu-1">
+      <div class="mcard menu-1-item" onclick="go('music')">
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
         <div class="mbody"><h3 lang-ko>진정 음악 듣기</h3><h3 lang-en>Calming sounds</h3><p lang-ko>지금 상태에 맞는 소리 고르기</p><p lang-en>Pick a sound for how you feel</p></div>
-      </div>
-      <div class="mcard mcard-info" style="cursor:default;">
-        <div class="mbody">
-          <p lang-ko style="font-weight:700; color:var(--day-ink); font-size:.85rem; line-height:1.4;">공황은 반드시 정점을 지나 가라앉습니다. 지금은 한 단계만 해보세요.</p>
-          <p lang-en style="font-weight:700; color:var(--day-ink); font-size:.85rem; line-height:1.4;">Panic always peaks, then eases. Just try one step for now.</p>
-        </div>
       </div>
     </div>
 
@@ -322,6 +320,11 @@ body.lang-en [lang-en]{display:revert !important;}
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
         <div class="mbody"><h3 lang-ko>넘긴 뒤 챙기기</h3><h3 lang-en>After you've gotten through it</h3><p lang-ko>정리하고 필요하면 연결하기</p><p lang-en>Wrap up, connect to help if needed</p></div>
       </div>
+    </div>
+
+    <div class="reassure">
+      <span lang-ko>공황은 반드시 정점을 지나 가라앉습니다.<br>지금은 한 단계만 해보세요.</span>
+      <span lang-en>Panic always peaks, then eases.<br>Just try one step for now.</span>
     </div>
 
     <div class="menu" style="margin-top:16px">
@@ -537,7 +540,20 @@ body.lang-en [lang-en]{display:revert !important;}
     </div>
     <div class="donemsg" id="gDone" lang-ko>잘하셨어요. 방금 주의가 몸 밖으로, 지금 여기로 나가 있었습니다.</div>
     <button class="btn ghost" id="gRestart" onclick="startGround()" style="display:none"><span lang-ko>다시 하기</span><span lang-en>Do it again</span></button>
-    <button class="btn" onclick="go('link')"><span lang-ko>다음: 넘긴 뒤 챙기기 →</span><span lang-en>Next: after it passes →</span></button>
+    <button class="btn" onclick="go('label')"><span lang-ko>다음: 감정에 이름 붙이기 →</span><span lang-en>Next: name the feeling →</span></button>
+    <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
+  </div>
+
+  <!-- ===== 감정에 이름 붙이기 ===== -->
+  <div id="label" class="screen">
+    <button class="back" onclick="go('home')">← <span lang-ko>처음으로</span><span lang-en>Home</span></button>
+    <p class="stitle" lang-ko>지금 느낌에 가장 가까운 이름은?</p>
+    <p class="stitle" lang-en>What name fits this feeling best?</p>
+    <p class="shint" lang-ko>이름 없이 뒤섞인 느낌은 더 커 보입니다. 하나를 골라 콕 집어보세요.</p>
+    <p class="shint" lang-en>An unnamed, tangled feeling can seem bigger than it is. Pick one to name it precisely.</p>
+    <div class="opt" id="labelOpts"></div>
+    <div class="donemsg" id="labelDone"></div>
+    <button class="btn" onclick="go('link')" style="margin-top:14px"><span lang-ko>다음: 넘긴 뒤 챙기기 →</span><span lang-en>Next: after it passes →</span></button>
     <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
   </div>
 
@@ -788,6 +804,7 @@ function go(id){
   if(id==='ground') startGround();
   if(id==='flash') startFlash();
   if(id==='wave') startWave();
+  if(id==='label') startLabel();
 }
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
@@ -1133,6 +1150,36 @@ function hitDot(el){ if(el.dataset.done) return; el.dataset.done='1';
   },450); }
 }
 
+/* ===== 감정에 이름 붙이기 (인지적 라벨링) ===== */
+const labelWords=[
+  {k:'불안', e:'Anxious', dk:'뭔가 잘못될 것 같은 조마조마함', de:'A tense sense that something might go wrong', rk:'"불안"이라는 이름을 붙였습니다. 이름을 붙이는 순간 뇌의 경보 반응은 조금씩 가라앉기 시작합니다.', re:'You named it "anxious." The moment a feeling is named, the brain\'s alarm response starts to settle.'},
+  {k:'두려움', e:'Fear', dk:'구체적인 무언가에 겁이 나는 느낌', de:'Fear pointed at something specific', rk:'"두려움"이라는 이름을 붙였습니다. 두려움은 위험 신호이지 사실 그 자체는 아닙니다.', re:'You named it "fear." Fear is a signal about danger, not proof that danger is real.'},
+  {k:'긴장', e:'Tension', dk:'몸이 뻣뻣하고 조여드는 느낌', de:'A tight, stiff feeling in the body', rk:'"긴장"이라는 이름을 붙였습니다. 긴장은 몸의 반응일 뿐, 지금 몸을 풀어주면 함께 낮아집니다.', re:'You named it "tension." Tension is just a body response — it eases as the body relaxes.'},
+  {k:'혼란', e:'Confusion', dk:'생각이 뒤엉켜 정리가 안 되는 느낌', de:'Thoughts feel tangled and hard to sort', rk:'"혼란"이라는 이름을 붙였습니다. 지금 전부 정리할 필요는 없습니다. 한 가지만 붙잡아도 됩니다.', re:'You named it "confusion." You don\'t need to sort everything now — holding onto just one thing is enough.'},
+  {k:'무서움', e:'Dread', dk:'막연히 나쁜 일이 닥칠 것 같은 느낌', de:'A vague sense that something bad is coming', rk:'"무서움"이라는 이름을 붙였습니다. 막연한 예감은 실제 일어날 확률과 다릅니다.', re:'You named it "dread." A vague premonition is different from an actual likelihood.'},
+  {k:'지침', e:'Exhaustion', dk:'더 버틸 힘이 없는 것 같은 느낌', de:'A sense of having no strength left to cope', rk:'"지침"이라는 이름을 붙였습니다. 지금은 애쓰지 않아도 됩니다. 그냥 한 단계만 버티면 됩니다.', re:'You named it "exhaustion." You don\'t need to push right now — just hold on for one step.'}
+];
+function startLabel(){
+  const en=document.body.classList.contains('lang-en');
+  const opts=document.getElementById('labelOpts'); opts.innerHTML='';
+  document.getElementById('labelDone').classList.remove('on');
+  labelWords.forEach(w=>{
+    const b=document.createElement('button');
+    b.className='obtn';
+    b.innerHTML='<span>'+(en?w.e:w.k)+'</span><small>'+(en?w.de:w.dk)+'</small>';
+    b.onclick=()=>pickLabel(w,b);
+    opts.appendChild(b);
+  });
+}
+function pickLabel(w,btn){
+  const en=document.body.classList.contains('lang-en');
+  document.querySelectorAll('#labelOpts .obtn').forEach(b=>{ b.style.opacity='.5'; b.disabled=true; });
+  btn.style.opacity='1'; btn.style.borderColor='var(--day-accent)'; btn.style.background='var(--day-card2)';
+  const done=document.getElementById('labelDone');
+  done.textContent = en ? w.re : w.rk;
+  done.classList.add('on');
+}
+
 /* ===== 음악(증상 매칭) — 파일은 assets/music/ 폴더에 넣을 것 =====
    낮고 깊은 울림: low-1.mp3~low-2.mp3
    빗소리·파도소리: nature-1.mp3~nature-2.mp3
@@ -1224,10 +1271,9 @@ function renderSg(){
       '<button onclick="sgChoice(&quot;vague&quot;)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4v16M4 12h16"/></svg><span class="t">'+(en?'Just anxious':'그냥 불안하다')+'</span></button>'+
       '</div>';
     nav.style.display='none';
-    if(faaDock) faaDock.style.display='none';
     return;
   }
-  if(faaDock) faaDock.style.display = (step==='faacard') ? 'none' : 'flex';
+  if(faaDock) faaDock.style.display = (step==='faacard') ? 'none' : 'block';
   if(step==='faacard'){
     renderFaaCard(body);
     nav.style.display='flex';
