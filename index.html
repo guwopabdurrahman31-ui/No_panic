@@ -70,19 +70,22 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 
 /* ===== 평상시 카드형 UI ===== */
 .stagelabel{font-size:.76rem; letter-spacing:.06em; color:var(--day-sub); font-weight:700; margin:22px 2px 8px; text-transform:uppercase;}
-.menu{display:flex; flex-direction:column; gap:10px;}
-.mcard{background:var(--day-card); border:1px solid var(--line-day); border-radius:16px; padding:15px 16px; cursor:pointer; display:flex; align-items:center; gap:14px; min-height:44px;}
+.menu{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.menu-1{grid-template-columns:1fr;}
+.mcard{background:var(--day-card); border:1px solid var(--line-day); border-radius:16px; padding:14px 12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; min-height:44px;}
 .mcard:active{transform:scale(.98);}
 .mcard-info{background:var(--ev-card); border:1px solid var(--ev-line);}
+.mcard.menu-1-item{flex-direction:row; text-align:left; gap:14px;}
 .micon{flex:0 0 auto; width:30px; text-align:center; color:var(--day-accent);}
-.mbody h3{margin:0 0 2px; font-size:1rem; font-weight:700;}
-.mbody p{margin:0; font-size:.8rem; color:var(--day-sub);}
+.mbody h3{margin:0 0 2px; font-size:.94rem; font-weight:700;}
+.mbody p{margin:0; font-size:.76rem; color:var(--day-sub); line-height:1.3;}
+.mcard.menu-1-item .mbody{text-align:left;}
 
 .card{background:var(--day-card); border-radius:14px; padding:14px 16px; margin-bottom:10px;}
 .card.strong{background:var(--day-ink); color:#eef4ea;}
 .card.strong .sub{color:var(--night-accent);}
 
-.reassure{margin-top:18px; padding:14px 16px; border-radius:14px; background:rgba(61,92,77,.08); border:1px solid rgba(61,92,77,.18); font-size:.88rem; color:var(--day-ink); text-align:center;}
+.reassure{margin-top:18px; padding:16px 18px; border-radius:14px; background:var(--day-card2); border:1px solid rgba(61,92,77,.28); font-size:1rem; font-weight:600; line-height:1.5; color:var(--day-ink); text-align:center;}
 .footer{margin-top:14px; text-align:center; color:var(--day-sub); font-size:.74rem; line-height:1.6;}
 
 .btn{width:100%; min-height:48px; padding:13px; border-radius:14px; border:none; background:var(--day-accent); color:#fff; font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit; margin-top:8px;}
@@ -177,6 +180,15 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 body.lang-en [lang-ko]{display:none !important;}
 body.lang-en [lang-en]{display:revert !important;}
 </style>
+
+<!-- Google Analytics (GA4) — 공황패스 SOS 전용, 2026-08-11 연결 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FF0X0F900"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9FF0X0F900');
+</script>
 </head>
 <body>
 
@@ -288,20 +300,21 @@ body.lang-en [lang-en]{display:revert !important;}
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
         <div class="mbody"><h3 lang-ko>진정 음악 듣기</h3><h3 lang-en>Calming sounds</h3><p lang-ko>지금 상태에 맞는 소리 고르기</p><p lang-en>Pick a sound for how you feel</p></div>
       </div>
+      <div class="mcard mcard-info" style="cursor:default;">
+        <div class="mbody">
+          <p lang-ko style="font-weight:700; color:var(--day-ink); font-size:.85rem; line-height:1.4;">공황은 반드시 정점을 지나 가라앉습니다. 지금은 한 단계만 해보세요.</p>
+          <p lang-en style="font-weight:700; color:var(--day-ink); font-size:.85rem; line-height:1.4;">Panic always peaks, then eases. Just try one step for now.</p>
+        </div>
+      </div>
     </div>
 
     <div class="stagelabel" lang-ko>파도가 지나간 뒤</div>
     <div class="stagelabel" lang-en>After the wave passes</div>
-    <div class="menu">
-      <div class="mcard" onclick="go('link')">
+    <div class="menu menu-1">
+      <div class="mcard menu-1-item" onclick="go('link')">
         <div class="micon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
         <div class="mbody"><h3 lang-ko>넘긴 뒤 챙기기</h3><h3 lang-en>After you've gotten through it</h3><p lang-ko>정리하고 필요하면 연결하기</p><p lang-en>Wrap up, connect to help if needed</p></div>
       </div>
-    </div>
-
-    <div class="reassure">
-      <span lang-ko>평소와 같은 공황이라면, 이 파도도 강도가 변하고 내려갈 수 있습니다. 지금은 한 단계만 해보세요.</span>
-      <span lang-en>If this is your usual panic, this wave can change in intensity and ease. Try just one step for now.</span>
     </div>
 
     <div class="menu" style="margin-top:16px">

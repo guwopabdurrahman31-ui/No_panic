@@ -4,7 +4,7 @@
 
 - **웹 접속 (GitHub Pages)**: `https://guwopabdurrahman31-ui.github.io/No_panic/`
 - **주요 특징**: 
-  - 100% 무료 / 광고 없음 / 서버 데이터 전송 전혀 없음 (`localStorage` 기반 기기 내 저장)
+  - 100% 무료 / 광고 없음 / 개인화 데이터는 기기 내 저장(`localStorage`), 서버 전송 없음 (단, 익명 이용 통계 수집용 Google Analytics 연동, 2026-08-11)
   - 인터넷 연결 없이 핵심 기능과 음악 작동 (`sw.js` 캐싱 및 Android 앱 내장 자산)
   - 임상 논문 및 가이드라인을 참고한 7가지 자가대처 방법, 부담 없는 집중 게임 2종 & 발작 시 직관적인 표지판 카드 모드 제공
 
