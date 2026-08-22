@@ -2,9 +2,10 @@
 
 공황장애가 있는 개발자가 실제 공황 발작 시 사용하기 위해 만든 **무료 오프라인 자가관리 보조 앱**입니다. 연구와 임상 가이드라인을 참고했으며, 웹 PWA와 Android 앱으로 제공합니다.
 
-- **웹 접속 (GitHub Pages)**: `https://guwopabdurrahman31-ui.github.io/No_panic/`
+- **웹 접속**: `https://nopanic.travel-play-with.me/`
 - **주요 특징**: 
-  - 100% 무료 / 광고 없음 / 개인화 데이터는 기기 내 저장(`localStorage`), 서버 전송 없음 (단, 익명 이용 통계 수집용 Google Analytics 연동, 2026-08-11)
+  - 100% 무료 / 광고 없음 / Android 앱의 개인화 데이터는 기기 내 저장(`localStorage`), 서버 전송 없음
+  - 공개 웹사이트는 사용자가 허용한 경우에만 Google Analytics 익명 이용 통계를 사용
   - 인터넷 연결 없이 핵심 기능과 음악 작동 (`sw.js` 캐싱 및 Android 앱 내장 자산)
   - 임상 논문 및 가이드라인을 참고한 7가지 자가대처 방법, 부담 없는 집중 게임 2종 & 발작 시 직관적인 표지판 카드 모드 제공
 

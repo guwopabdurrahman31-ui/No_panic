@@ -8,6 +8,15 @@ KEYSTORE_PATH="$PROJECT_DIR/play-store/signing/panicpass-upload.jks"
 KEYCHAIN_SERVICE="com.guwopabdurrahman31ui.panicpasssos.upload-key"
 KEYCHAIN_ACCOUNT="${USER:?USER is required}"
 BUILD_TMP="$(mktemp -d /tmp/panicpass-build.XXXXXX)"
+APP_VERSION="$(sed -n "s/^[[:space:]]*versionName '\([^']*\)'.*/\1/p" "$PROJECT_DIR/app/build.gradle" | head -n 1)"
+APP_VERSION_CODE="$(sed -n 's/^[[:space:]]*versionCode[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$PROJECT_DIR/app/build.gradle" | head -n 1)"
+
+if [[ -z "$APP_VERSION" || -z "$APP_VERSION_CODE" ]]; then
+  echo "Could not read versionName/versionCode from app/build.gradle" >&2
+  exit 1
+fi
+
+RELEASE_BASENAME="panic-pass-sos-v$APP_VERSION"
 
 cleanup() {
   case "$BUILD_TMP" in
@@ -41,14 +50,14 @@ export PANIC_PASS_KEYSTORE="$KEYSTORE_PATH"
 export PANIC_PASS_STORE_PASSWORD="$SIGNING_SECRET"
 export PANIC_PASS_KEY_ALIAS="upload"
 
-"$BUILD_TMP/source/gradlew" -p "$BUILD_TMP/source" lintRelease bundleRelease assembleRelease
+"$BUILD_TMP/source/gradlew" -p "$BUILD_TMP/source" lintRelease assembleRelease validateReleaseBundle
 
 RELEASE_DIR="$PROJECT_DIR/play-store/release"
 mkdir -p "$RELEASE_DIR"
 cp "$BUILD_TMP/source/app/build/outputs/bundle/release/app-release.aab" \
-  "$RELEASE_DIR/panic-pass-sos-v1.0.0.aab"
+  "$RELEASE_DIR/$RELEASE_BASENAME.aab"
 cp "$BUILD_TMP/source/app/build/outputs/apk/release/app-release.apk" \
-  "$RELEASE_DIR/panic-pass-sos-v1.0.0.apk"
+  "$RELEASE_DIR/$RELEASE_BASENAME.apk"
 
 "$JAVA_HOME/bin/keytool" -exportcert -rfc \
   -keystore "$KEYSTORE_PATH" \
@@ -60,9 +69,10 @@ cp "$BUILD_TMP/source/app/build/outputs/apk/release/app-release.apk" \
 perl -pi -e 's/\r$//' "$RELEASE_DIR/upload_certificate.pem"
 
 shasum -a 256 \
-  "$RELEASE_DIR/panic-pass-sos-v1.0.0.aab" \
-  "$RELEASE_DIR/panic-pass-sos-v1.0.0.apk" \
+  "$RELEASE_DIR/$RELEASE_BASENAME.aab" \
+  "$RELEASE_DIR/$RELEASE_BASENAME.apk" \
   > "$RELEASE_DIR/SHA256SUMS.txt"
 
 unset SIGNING_SECRET PANIC_PASS_STORE_PASSWORD
-echo "Release bundle: $RELEASE_DIR/panic-pass-sos-v1.0.0.aab"
+echo "Release bundle: $RELEASE_DIR/$RELEASE_BASENAME.aab"
+echo "Release version: $APP_VERSION ($APP_VERSION_CODE)"

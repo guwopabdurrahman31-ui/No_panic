@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nopanic.travel-play-with.me/sitemap.xml

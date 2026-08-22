@@ -58,13 +58,11 @@ public final class LauncherActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setAllowContentAccess(false);
         settings.setAllowFileAccess(true);
-        settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(false);
         settings.setMediaPlaybackRequiresUserGesture(true);
         settings.setSupportMultipleWindows(false);
         settings.setBuiltInZoomControls(false);
         settings.setDisplayZoomControls(false);
-        settings.setSaveFormData(false);
 
         CookieManager.getInstance().setAcceptCookie(false);
         view.setBackgroundColor(Color.rgb(233, 239, 230));

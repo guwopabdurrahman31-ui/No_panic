@@ -2,10 +2,18 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#e9efe6">
 <meta name="description" content="공황발작이 오기 전이나 시작됐을 때 바로 사용하는 무료 오프라인 대처 가이드">
 <meta name="apple-mobile-web-app-title" content="공황패스 SOS">
+<meta property="og:title" content="공황패스 SOS — 공황발작 대처 가이드">
+<meta property="og:description" content="공황의 순간을 한 단계씩 건너기 위한 무료 오프라인 대처 가이드">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nopanic.travel-play-with.me/">
+<meta property="og:image" content="https://nopanic.travel-play-with.me/assets/icons/icon-512.png">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://nopanic.travel-play-with.me/">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 <title>공황패스 SOS — 공황발작 대처 가이드</title>
 <link rel="manifest" href="manifest.json">
 <style>
@@ -87,6 +95,9 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 
 .reassure{margin-top:18px; padding:16px 18px; border-radius:14px; background:var(--day-card2); border:1px solid rgba(61,92,77,.28); font-size:1rem; font-weight:600; line-height:1.5; color:var(--day-ink); text-align:center;}
 .footer{margin-top:14px; text-align:center; color:var(--day-sub); font-size:.74rem; line-height:1.6;}
+.privacy-link,.privacy-choice{display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 10px; color:var(--day-accent); text-underline-offset:2px; font:inherit;}
+.privacy-choice{border:0; background:transparent; text-decoration:underline; cursor:pointer;}
+.web-only{display:none;}
 
 .btn{width:100%; min-height:48px; padding:13px; border-radius:14px; border:none; background:var(--day-accent); color:#fff; font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit; margin-top:8px;}
 .btn:active{transform:scale(.98);}
@@ -106,8 +117,15 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 .evbox.open .detail{display:block;}
 
 .langtoggle{position:absolute; top:18px; right:18px; display:flex; gap:2px; background:var(--day-card); border-radius:20px; padding:3px;}
-.langtoggle button{border:none; background:transparent; padding:6px 12px; border-radius:16px; font-size:.78rem; font-weight:700; color:var(--day-sub); cursor:pointer; font-family:inherit;}
+.langtoggle button{border:none; background:transparent; min-width:44px; min-height:44px; padding:8px 12px; border-radius:18px; font-size:.78rem; font-weight:700; color:var(--day-sub); cursor:pointer; font-family:inherit;}
 .langtoggle button.active{background:var(--day-accent); color:#fff;}
+
+.analytics-consent{display:none; position:fixed; z-index:1200; left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom, 0px) + 14px); max-width:560px; margin:auto; padding:16px; border:1px solid var(--line-day); border-radius:16px; background:#f7faf5; color:var(--day-ink); box-shadow:0 12px 34px rgba(28,38,32,.22); font-size:.82rem; line-height:1.55;}
+.analytics-consent.on{display:block;}
+.analytics-consent p{margin:0 0 12px;}
+.analytics-consent .actions{display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;}
+.analytics-consent button{min-height:44px; padding:9px 13px; border:1px solid var(--line-day); border-radius:12px; background:#fff; color:var(--day-ink); font:inherit; font-weight:700; cursor:pointer;}
+.analytics-consent button.allow{background:var(--day-accent); color:#fff; border-color:var(--day-accent);}
 
 /* ===== 발작중(SOS) 풀스크린 표지판 ===== */
 #signage{position:fixed; inset:0; z-index:999; background:var(--night-bg); display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center;}
@@ -186,20 +204,21 @@ body.lang-en [lang-ko]{display:none !important;}
 body.lang-en [lang-en]{display:revert !important;}
 </style>
 
-<!-- Google Analytics (GA4) — 공황패스 SOS 전용, 2026-08-11 연결 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FF0X0F900"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9FF0X0F900');
-</script>
 </head>
 <body>
 
+<aside id="analyticsConsent" class="analytics-consent" role="dialog" aria-modal="true" aria-label="이용 통계 선택">
+  <p lang-ko>허용하면 웹사이트 개선을 위해 Google Analytics의 익명 이용 통계를 사용합니다. 앱과 증상 기록은 전송하지 않습니다.</p>
+  <p lang-en>If you allow it, this website uses anonymous Google Analytics statistics to improve the service. App and symptom records are never sent.</p>
+  <div class="actions">
+    <button type="button" onclick="setAnalyticsConsent('denied')"><span lang-ko>필수 기능만</span><span lang-en>Essential only</span></button>
+    <button type="button" class="allow" onclick="setAnalyticsConsent('granted')"><span lang-ko>익명 통계 허용</span><span lang-en>Allow anonymous stats</span></button>
+  </div>
+</aside>
+
 <!-- ===== 풀스크린 표지판(발작중) ===== -->
 <div id="signage">
-  <button class="sg-close" onclick="closeSignage()" aria-label="닫기">✕</button>
+  <button class="sg-close" onclick="dismissSignage()" aria-label="닫기">✕</button>
   <div class="sg-dots" id="sgDots"></div>
   <div class="sg-faa-dock">
     <button id="sgFaaBtn" onclick="openFaaFromSignage()" aria-label="나를 도와주세요 — 승무원·주변 사람에게 보여주기">
@@ -323,8 +342,8 @@ body.lang-en [lang-en]{display:revert !important;}
     </div>
 
     <div class="reassure">
-      <span lang-ko>공황은 반드시 정점을 지나 가라앉습니다.<br>지금은 한 단계만 해보세요.</span>
-      <span lang-en>Panic always peaks, then eases.<br>Just try one step for now.</span>
+      <span lang-ko>많은 공황발작은 시간이 지나며 강도가 낮아집니다.<br>지금은 한 단계만 해보세요.</span>
+      <span lang-en>Many panic attacks ease in intensity with time.<br>Just try one step for now.</span>
     </div>
 
     <div class="menu" style="margin-top:16px">
@@ -339,9 +358,10 @@ body.lang-en [lang-en]{display:revert !important;}
     </div>
 
     <div class="footer">
-      <span lang-ko>이 도구는 순간을 넘기기 위한 자가관리 보조 도구이며, 전문 치료를 대신하지 않습니다.<br>발작이 잦거나 일상에 지장이 있으면 정신건강의학과 상담을 함께 권합니다.<br>처음 겪는 심한 증상, 실신, 한쪽 마비, 또는 팔·턱·등으로 뻗치는 가슴 통증이 가라앉지 않으면 119에 연락하세요.<br><b>개인정보나 증상 기록은 이 기기 밖으로 나가지 않습니다.</b></span>
-      <span lang-en>This is a self-management aid for getting through the moment — it does not replace professional treatment.<br>If attacks are frequent or disrupt daily life, please also consult a mental health professional.<br>Call emergency services for severe first-time symptoms, fainting, one-sided weakness, or chest pain spreading to the arm, jaw, or back that does not ease.<br><b>No personal data or symptoms ever leave this device.</b></span>
-      <br><a href="privacy_policy.html" style="color:var(--day-accent); text-underline-offset:2px;"><span lang-ko>개인정보처리방침 보기</span><span lang-en>Privacy policy</span></a>
+      <span lang-ko>이 도구는 순간을 넘기기 위한 자가관리 보조 도구이며, 전문 치료를 대신하지 않습니다.<br>발작이 잦거나 일상에 지장이 있으면 정신건강의학과 상담을 함께 권합니다.<br>처음 겪는 심한 증상, 실신, 한쪽 마비, 또는 팔·턱·등으로 뻗치는 가슴 통증이 가라앉지 않으면 119에 연락하세요.<br><b>앱의 개인정보나 증상 기록은 이 기기 밖으로 나가지 않습니다.</b></span>
+      <span lang-en>This is a self-management aid for getting through the moment — it does not replace professional treatment.<br>If attacks are frequent or disrupt daily life, please also consult a mental health professional.<br>Call emergency services for severe first-time symptoms, fainting, one-sided weakness, or chest pain spreading to the arm, jaw, or back that does not ease.<br><b>Personal data and symptom records in the app never leave this device.</b></span>
+      <br><a href="privacy_policy.html" class="privacy-link"><span lang-ko>개인정보처리방침 보기</span><span lang-en>Privacy policy</span></a>
+      <button type="button" class="privacy-choice web-only" onclick="openAnalyticsChoices()"><span lang-ko>이용 통계 선택</span><span lang-en>Analytics choices</span></button>
     </div>
   </div>
 
@@ -384,10 +404,10 @@ body.lang-en [lang-en]{display:revert !important;}
     <div style="margin:20px auto; width:150px; height:150px; border-radius:50%; background:radial-gradient(circle at 50% 45%, rgba(61,92,77,.28), rgba(61,92,77,.05)); border:1px solid rgba(61,92,77,.4); display:flex; align-items:center; justify-content:center; transition:transform 3s ease-in-out;" id="bOrb">
       <span id="bText" style="font-weight:700; color:var(--day-ink)">시작을 누르세요</span>
     </div>
-    <div style="text-align:center; color:var(--day-sub); font-size:.95rem;" lang-ko>내쉰 횟수 <b id="bCount" style="color:var(--day-accent); font-size:1.3rem">0</b> / 6</div>
+    <div style="text-align:center; color:var(--day-sub); font-size:.95rem;"><span lang-ko>내쉰 횟수</span><span lang-en>Exhales</span> <b id="bCount" style="color:var(--day-accent); font-size:1.3rem">0</b> / 6</div>
     <p class="shint" style="margin-top:14px; background:var(--day-card); border-radius:12px; padding:12px;" lang-ko>호흡에 집중하니 숨이 더 답답하게 느껴진다면 — 자연스러운 반응입니다. 억지로 매달리지 말고 바로 다른 방법으로 넘어가세요.</p>
     <p class="shint" style="margin-top:14px; background:var(--day-card); border-radius:12px; padding:12px;" lang-en>If focusing on your breath makes it feel more difficult — that's a normal reaction. Don't force it, just move to another method.</p>
-    <div class="donemsg" id="bDone" lang-ko>내쉬는 숨이 길어지면 몸이 "안전하다"고 인식합니다. 더 해도 되고, 다른 단계로 넘어가도 됩니다.</div>
+    <div class="donemsg" id="bDone"><span lang-ko>여섯 번 천천히 내쉬었습니다. 더 해도 되고, 다른 단계로 넘어가도 됩니다.</span><span lang-en>You completed six slow exhales. Continue if it feels helpful, or move to another step.</span></div>
     <button class="btn" id="bBtn" onclick="toggleBreath()"><span lang-ko>시작</span><span lang-en>Start</span></button>
     <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
   </div>
@@ -501,10 +521,10 @@ body.lang-en [lang-en]{display:revert !important;}
     <p class="shint" lang-ko>공황은 "이 느낌 = 큰일"이라는 잘못된 해석을 연료로 씁니다. 카드를 탭해 사실로 되받으세요.</p>
     <p class="shint" lang-en>Panic runs on the false belief that "this feeling equals danger." Tap the card to counter it with facts.</p>
     <div class="card" style="cursor:pointer; min-height:90px; display:flex; flex-direction:column; justify-content:center;" onclick="nextFlash()">
-      <div id="fQ" style="font-size:.85rem; color:var(--day-sub)" lang-ko>몸이 이렇게 말할 때…</div>
-      <div id="fA" style="font-size:1.05rem; font-weight:700; margin-top:4px" lang-ko>여기를 탭하세요</div>
+      <div id="fQ" style="font-size:.85rem; color:var(--day-sub)">몸이 이렇게 말할 때…</div>
+      <div id="fA" style="font-size:1.05rem; font-weight:700; margin-top:4px">여기를 탭하세요</div>
     </div>
-    <div class="donemsg" id="cfDone" lang-ko>이 문장들이 사실입니다. 지금까지 한 번도 예외가 없었습니다.</div>
+    <div class="donemsg" id="cfDone"><span lang-ko>지금의 느낌과 사실을 구분해 보았습니다. 평소와 다르거나 계속 악화되면 도움을 구하세요.</span><span lang-en>You separated the feeling from the facts. Seek help if this is unusual for you or keeps worsening.</span></div>
     <button class="btn" onclick="go('wave')"><span lang-ko>다음: 파도 흘려보내기 →</span><span lang-en>Next: let the wave pass →</span></button>
     <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
   </div>
@@ -518,9 +538,9 @@ body.lang-en [lang-en]{display:revert !important;}
     <div style="position:relative; height:170px; margin:16px 0; border-radius:16px; background:var(--day-card); display:flex; align-items:center; justify-content:center; overflow:hidden;">
       <div style="position:absolute; left:0; right:0; bottom:40%; height:2px; background:rgba(61,92,77,.3);"></div>
       <div id="wBall" style="width:26px; height:26px; border-radius:50%; background:var(--day-accent); position:relative;"></div>
-      <div id="wText" style="position:absolute; bottom:10px; left:0; right:0; text-align:center; color:var(--day-ink); font-size:1.15rem; font-weight:600;" lang-ko>올라옵니다 — 그냥 보세요</div>
+      <div id="wText" style="position:absolute; bottom:10px; left:0; right:0; text-align:center; color:var(--day-ink); font-size:1.15rem; font-weight:600;">올라옵니다 — 그냥 보세요</div>
     </div>
-    <div class="donemsg" id="wDone"><span lang-ko>지나갔습니다. 보셨듯이 아무것도 하지 않아도 파도는 내려옵니다.</span><span lang-en>It has passed. As you saw, the wave comes down on its own — you didn't need to do anything.</span></div>
+    <div class="donemsg" id="wDone"><span lang-ko>15초 동안 파도를 따라갔습니다. 지금 상태를 살피고 다음 단계를 선택하세요.</span><span lang-en>You followed the wave for 15 seconds. Notice how you feel now and choose the next step.</span></div>
     <button class="btn" onclick="startWave()"><span lang-ko>다시 지켜보기</span><span lang-en>Watch again</span></button>
     <button class="btn" onclick="go('ground')"><span lang-ko>다음: 주변에 닻 내리기 →</span><span lang-en>Next: anchor to your surroundings →</span></button>
     <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
@@ -534,11 +554,11 @@ body.lang-en [lang-en]{display:revert !important;}
     <p class="shint" lang-en>Actually look around where you are. Tap a circle each time you find one.</p>
     <div class="card" style="text-align:center; padding:22px 16px;">
       <div id="gCount" style="font-size:2.2rem; font-weight:800; color:var(--day-accent);">5</div>
-      <div id="gSense" style="font-size:1.1rem; font-weight:700; margin:8px 0 3px;" lang-ko>눈에 보이는 것</div>
-      <div id="gDesc" style="color:var(--day-sub); font-size:.85rem; margin-bottom:16px;" lang-ko>천천히 둘러보며 5가지를 찾아 하나씩 탭하세요.</div>
+      <div id="gSense" style="font-size:1.1rem; font-weight:700; margin:8px 0 3px;">눈에 보이는 것</div>
+      <div id="gDesc" style="color:var(--day-sub); font-size:.85rem; margin-bottom:16px;">천천히 둘러보며 5가지를 찾아 하나씩 탭하세요.</div>
       <div id="gDots" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;"></div>
     </div>
-    <div class="donemsg" id="gDone" lang-ko>잘하셨어요. 방금 주의가 몸 밖으로, 지금 여기로 나가 있었습니다.</div>
+    <div class="donemsg" id="gDone"><span lang-ko>다섯 감각을 차례로 살펴보았습니다. 지금 상태를 확인하고 쉬어도 됩니다.</span><span lang-en>You checked each of the five senses. Notice how you feel now and rest if you want.</span></div>
     <button class="btn ghost" id="gRestart" onclick="startGround()" style="display:none"><span lang-ko>다시 하기</span><span lang-en>Do it again</span></button>
     <button class="btn" onclick="go('label')"><span lang-ko>다음: 감정에 이름 붙이기 →</span><span lang-en>Next: name the feeling →</span></button>
     <button class="btn ghost" onclick="go('home')"><span lang-ko>다른 방법 보기</span><span lang-en>See other methods</span></button>
@@ -580,11 +600,11 @@ body.lang-en [lang-en]{display:revert !important;}
     </div>
     <div id="musicPlayer" class="card" style="display:none; margin-top:16px;">
       <div style="display:flex; align-items:center; justify-content:space-between;">
-        <b id="musicNowPlaying" lang-ko>재생 중</b>
+        <b id="musicNowPlaying">재생 중</b>
         <button class="btn" style="width:auto; margin:0; padding:8px 16px;" onclick="stopMusic()"><span lang-ko>끄기</span><span lang-en>Stop</span></button>
       </div>
       <audio id="audioPlayer" controls style="width:100%; margin-top:10px;" loop></audio>
-      <div style="font-size:.78rem; color:var(--day-sub); margin-top:6px;" lang-ko>60→50 BPM으로 점점 느려지는 무가사 음악. 심박을 서서히 낮춰줍니다.</div>
+      <div style="font-size:.78rem; color:var(--day-sub); margin-top:6px;"><span lang-ko>가사 없는 오프라인 음악입니다. 편안하게 느껴지는 소리만 선택하세요.</span><span lang-en>Lyric-free audio available offline. Choose only a sound that feels comfortable.</span></div>
     </div>
   </div>
 
@@ -635,9 +655,9 @@ body.lang-en [lang-en]{display:revert !important;}
     <p class="shint" lang-en>This app draws on research and clinical guidance, but that does not mean each brief in-app exercise has itself been clinically tested. Tap below to see the evidence and its limits.</p>
 
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>숨 내려놓기</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>생리적 한숨 · 스탠퍼드대 2023 연구</div>
-      <div class="detail" lang-ko>스탠퍼드 연구에서는 참가자들이 하루 5분씩 한 달간 호흡법을 연습했고, 날숨 중심의 생리적 한숨 집단에서 기분과 호흡수 개선이 보고됐습니다. 급성 공황 중 앱의 짧은 버전을 직접 시험한 연구는 아닙니다.</div>
+      <div class="h"><div class="name"><span lang-ko>숨 내려놓기</span><span lang-en>Let the breath go</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>생리적 한숨 · 스탠퍼드대 2023 연구</span><span lang-en>Physiological sigh · 2023 Stanford study</span></div>
+      <div class="detail"><span lang-ko>스탠퍼드 연구에서는 참가자들이 하루 5분씩 한 달간 호흡법을 연습했고, 날숨 중심의 생리적 한숨 집단에서 기분과 호흡수 개선이 보고됐습니다. 급성 공황 중 앱의 짧은 버전을 직접 시험한 연구는 아닙니다.</span><span lang-en>In the Stanford study, participants practiced breathing for five minutes a day over one month; the exhale-focused cyclic-sighing group showed improvements in mood and respiratory rate. The study did not directly test this app's brief version during acute panic.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
       <div class="h"><div class="name"><span lang-ko>힘줬다 놓기</span><span lang-en>Tense and release</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
@@ -664,39 +684,39 @@ body.lang-en [lang-en]{display:revert !important;}
       </div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>찬 기운 쐬기</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>DBT TIPP 기법 · 잠수 반사</div>
-      <div class="detail" lang-ko>찬 자극은 변증법적행동치료(DBT)의 위기대처 기술에 포함됩니다. 다만 공황발작에 특화된 효과와 속도를 단정하기는 어려워, 이 앱에서는 일부 사람에게 주의를 전환할 수 있는 선택 방법으로 제공합니다.</div>
+      <div class="h"><div class="name"><span lang-ko>찬 기운 쐬기</span><span lang-en>Cold sensation</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>DBT TIPP 기법 · 잠수 반사</span><span lang-en>DBT TIPP skill · dive reflex</span></div>
+      <div class="detail"><span lang-ko>찬 자극은 변증법적행동치료(DBT)의 위기대처 기술에 포함됩니다. 다만 공황발작에 특화된 효과와 속도를 단정하기는 어려워, 이 앱에서는 일부 사람에게 주의를 전환할 수 있는 선택 방법으로 제공합니다.</span><span lang-en>Cold stimulation is included among distress-tolerance skills in dialectical behavior therapy (DBT). Panic-specific effects and speed are uncertain, so this app offers it only as an optional way some people may shift their attention.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>사실로 되받기</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>Clark 공황 인지모델 · 1986</div>
-      <div class="detail" lang-ko>공황은 신체감각을 "위험"으로 잘못 해석하는 것에서 증폭됩니다(파국적 오해석). 이 오해석을 사실로 교정하면 공황이 유의하게 줄어든다는 것이 여러 연구에서 확인됐습니다.</div>
+      <div class="h"><div class="name"><span lang-ko>사실로 되받기</span><span lang-en>Fact-check the fear</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>Clark 공황 인지모델 · 1986</span><span lang-en>Clark cognitive model of panic · 1986</span></div>
+      <div class="detail"><span lang-ko>공황은 신체감각을 위험으로 해석할 때 증폭될 수 있습니다. 이런 해석을 점검하고 다르게 반응하도록 돕는 인지행동치료는 공황장애 치료에 널리 사용됩니다. 이 앱의 짧은 카드 자체가 치료 효과를 보장하지는 않습니다.</span><span lang-en>Panic can intensify when bodily sensations are interpreted as danger. Cognitive behavioral therapy, which helps people examine these interpretations and respond differently, is widely used for panic disorder. This app's brief cards do not guarantee a treatment effect.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>파도 흘려보내기</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>수용전념치료(ACT) · Steven Hayes</div>
-      <div class="detail" lang-ko>ACT는 불편한 감각이나 생각을 즉시 없애려 하기보다 알아차리고 허용하면서 가치 있는 행동을 이어가는 접근입니다. 이 앱의 짧은 파도 애니메이션 자체가 공황을 더 빨리 낮춘다는 직접 근거는 없습니다.</div>
+      <div class="h"><div class="name"><span lang-ko>파도 흘려보내기</span><span lang-en>Let the wave pass</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>수용전념치료(ACT) · Steven Hayes</span><span lang-en>Acceptance and Commitment Therapy (ACT) · Steven Hayes</span></div>
+      <div class="detail"><span lang-ko>ACT는 불편한 감각이나 생각을 즉시 없애려 하기보다 알아차리고 허용하면서 가치 있는 행동을 이어가는 접근입니다. 이 앱의 짧은 파도 애니메이션 자체가 공황을 더 빨리 낮춘다는 직접 근거는 없습니다.</span><span lang-en>ACT encourages noticing and allowing uncomfortable sensations or thoughts while continuing valued action, rather than trying to eliminate them immediately. There is no direct evidence that this app's brief wave animation makes panic ease faster.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>주변에 닻 내리기</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>5-4-3-2-1 그라운딩 · 인지행동치료(CBT)</div>
-      <div class="detail" lang-ko>감각을 하나씩 확인하는 그라운딩은 급성 고통과 해리 때 현재 환경으로 주의를 돌리는 안정화 기법입니다. 공황발작의 강도나 지속시간을 직접 줄인다는 근거는 제한적이므로 보조 방법으로 제공합니다.</div>
+      <div class="h"><div class="name"><span lang-ko>주변에 닻 내리기</span><span lang-en>Anchor to your surroundings</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>5-4-3-2-1 그라운딩 · 인지행동치료(CBT)</span><span lang-en>5-4-3-2-1 grounding · cognitive behavioral approaches</span></div>
+      <div class="detail"><span lang-ko>감각을 하나씩 확인하는 그라운딩은 급성 고통과 해리 때 현재 환경으로 주의를 돌리는 안정화 기법입니다. 공황발작의 강도나 지속시간을 직접 줄인다는 근거는 제한적이므로 보조 방법으로 제공합니다.</span><span lang-en>Grounding through the senses is a stabilization technique that redirects attention to the present environment during acute distress or dissociation. Evidence that it directly reduces panic intensity or duration is limited, so it is offered only as an optional aid.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>전체 진행 순서</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>심리적 응급처치(PFA)</div>
-      <div class="detail" lang-ko>살피기(Look) → 안정화(Listen) → 연결(Link)의 3단계는 국제 트라우마 대응 표준인 심리적 응급처치(PFA)의 구조를 따릅니다.</div>
+      <div class="h"><div class="name"><span lang-ko>전체 진행 순서</span><span lang-en>Overall flow</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>심리적 응급처치(PFA)</span><span lang-en>Psychological First Aid (PFA)</span></div>
+      <div class="detail"><span lang-ko>살피기(Look) → 안정화(Listen) → 연결(Link)의 흐름은 심리적 응급처치(PFA)의 Look, Listen, Link 구조에서 아이디어를 얻었습니다. 이 앱이 공식 PFA 교육이나 전문 지원을 대신하지는 않습니다.</span><span lang-en>The Look, Listen, Link structure of Psychological First Aid inspired this app's flow from checking safety to settling and connecting. The app does not replace formal PFA training or professional support.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>진정 음악 3종</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>동조화(entrainment) · 60→50 BPM 점감</div>
-      <div class="detail" lang-ko>음악과 자연음은 일부 불안 상황에서 이완을 돕는 보조 수단으로 연구됐지만, 세 종류의 소리가 특정 공황 증상에 각각 더 효과적이라는 직접 근거는 없습니다. 이 앱의 분류는 효과 보장이 아니라 사용자가 편한 소리를 고르기 위한 선택지입니다. 저작권은 개발자 본인 소유입니다.</div>
+      <div class="h"><div class="name"><span lang-ko>진정 음악 3종</span><span lang-en>Three calming sound options</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>선택형 오프라인 음악·자연음</span><span lang-en>Optional offline music and nature sounds</span></div>
+      <div class="detail"><span lang-ko>음악과 자연음은 일부 불안 상황에서 이완을 돕는 보조 수단으로 연구됐지만, 세 종류의 소리가 특정 공황 증상에 각각 더 효과적이라는 직접 근거는 없습니다. 이 앱의 분류는 효과 보장이 아니라 사용자가 편한 소리를 고르기 위한 선택지입니다. 저작권은 개발자 본인 소유입니다.</span><span lang-en>Music and nature sounds have been studied as relaxation aids in some anxiety settings, but there is no direct evidence that each of these three options works better for a particular panic symptom. The categories are choices, not effectiveness claims. The developer owns the audio copyright.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name" lang-ko>방법을 매번 다르게</div><div class="more" lang-ko>더보기 ›</div></div>
-      <div class="basis" lang-ko>선택권과 반복 사용성</div>
-      <div class="detail" lang-ko>사람마다 편한 방법이 다를 수 있어 SOS 순서를 조금씩 바꿉니다. 순서를 무작위로 바꾸는 것이 치료 효과를 높인다는 직접 근거는 없으며, 사용자가 맞지 않는 방법을 건너뛸 수 있게 하기 위한 설계입니다.</div>
+      <div class="h"><div class="name"><span lang-ko>방법을 매번 다르게</span><span lang-en>Varying the order</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>선택권과 반복 사용성</span><span lang-en>Choice and repeat use</span></div>
+      <div class="detail"><span lang-ko>사람마다 편한 방법이 다를 수 있어 SOS 순서를 조금씩 바꿉니다. 순서를 무작위로 바꾸는 것이 치료 효과를 높인다는 직접 근거는 없으며, 사용자가 맞지 않는 방법을 건너뛸 수 있게 하기 위한 설계입니다.</span><span lang-en>The SOS order varies because different methods may feel comfortable to different people. There is no direct evidence that randomizing the order improves treatment outcomes; it is a design choice that lets users skip methods that do not fit.</span></div>
     </div>
 
     <div style="border-top:1px solid var(--line-day); padding-top:12px; margin-top:6px;">
@@ -735,8 +755,8 @@ body.lang-en [lang-en]{display:revert !important;}
     <p class="shint" lang-en>You've gotten through it. Just getting here is enough — you did well.</p>
     <div class="card"><b lang-ko>✅ 방금도 지나갔습니다</b><b lang-en>✅ It just passed again</b>
       <div style="font-size:.82rem; color:var(--day-sub); margin-top:4px;">
-        <span lang-ko>"벗어날 방법이 없다"던 생각은 이번에도 틀렸습니다. 이 사실이 쌓일수록 다음 발작의 힘이 약해집니다.</span>
-        <span lang-en>The thought "there's no way out" was wrong again. Each time this happens, the next attack loses some of its power.</span>
+        <span lang-ko>이번 고비를 지나온 경험은 다음에 "한 단계씩 해볼 수 있다"고 떠올릴 근거가 됩니다.</span>
+        <span lang-en>Getting through this episode gives you evidence that next time you can take it one step at a time.</span>
       </div>
     </div>
     <div class="card"><b lang-ko>🧭 무엇이 방아쇠였나</b><b lang-en>🧭 What triggered it</b>
@@ -771,6 +791,37 @@ body.lang-en [lang-en]{display:revert !important;}
 </div>
 
 <script>
+/* ===== 웹 분석 동의: Android 로컬 앱에서는 로드하지 않음 ===== */
+const ANALYTICS_CONSENT_KEY='panicapp_analytics_consent';
+function isPublicWeb(){ return location.protocol==='https:' || location.protocol==='http:'; }
+function loadAnalytics(){
+  if(!isPublicWeb() || document.querySelector('script[data-panic-ga]')) return;
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=function(){ window.dataLayer.push(arguments); };
+  window.gtag('js',new Date());
+  window.gtag('config','G-9FF0X0F900',{anonymize_ip:true});
+  const script=document.createElement('script');
+  script.async=true;
+  script.dataset.panicGa='true';
+  script.src='https://www.googletagmanager.com/gtag/js?id=G-9FF0X0F900';
+  document.head.appendChild(script);
+}
+function setAnalyticsConsent(value){
+  try{ localStorage.setItem(ANALYTICS_CONSENT_KEY,value); }catch(e){}
+  document.getElementById('analyticsConsent').classList.remove('on');
+  if(value==='granted') loadAnalytics();
+  else if(window.gtag) location.reload();
+}
+function openAnalyticsChoices(){ document.getElementById('analyticsConsent').classList.add('on'); }
+(function initAnalyticsConsent(){
+  if(!isPublicWeb()) return;
+  document.querySelectorAll('.web-only').forEach(el=>el.style.display='inline-flex');
+  let saved=null;
+  try{ saved=localStorage.getItem(ANALYTICS_CONSENT_KEY); }catch(e){}
+  if(saved==='granted') loadAnalytics();
+  else if(saved!=='denied') openAnalyticsChoices();
+})();
+
 /* ===== 언어 토글 ===== */
 function setLang(l){
   document.body.classList.toggle('lang-en', l==='en');
@@ -1106,9 +1157,9 @@ function startWave(){
   ball.style.animation='wballmove 15.5s ease-in-out';
   const txt=document.getElementById('wText');
   txt.textContent = en ? 'Rising — just watch' : '올라옵니다 — 그냥 보세요';
-  wT.push(setTimeout(()=>txt.textContent = en ? "Peak — don't fight, keep watching" : '정점입니다 — 버티지 말고 계속 보세요',4500));
+  wT.push(setTimeout(()=>txt.textContent = en ? "The wave is high — keep watching" : '파도가 높습니다 — 계속 보세요',4500));
   wT.push(setTimeout(()=>txt.textContent = en ? 'Coming down — keep watching' : '내려갑니다 — 계속 보세요',9000));
-  wT.push(setTimeout(()=>{ txt.textContent = en ? 'It has passed' : '지나갔습니다'; document.getElementById('wDone').classList.add('on'); },15500));
+  wT.push(setTimeout(()=>{ txt.textContent = en ? 'The animation is complete' : '애니메이션을 마쳤습니다'; document.getElementById('wDone').classList.add('on'); },15500));
 }
 const waveStyle=document.createElement('style');
 waveStyle.textContent='@keyframes wballmove{0%{transform:translateY(60px);}25%{transform:translateY(-45px);}45%{transform:translateY(-52px);}70%{transform:translateY(-10px);}100%{transform:translateY(55px);}}';
@@ -1152,9 +1203,9 @@ function hitDot(el){ if(el.dataset.done) return; el.dataset.done='1';
 
 /* ===== 감정에 이름 붙이기 (인지적 라벨링) ===== */
 const labelWords=[
-  {k:'불안', e:'Anxious', dk:'뭔가 잘못될 것 같은 조마조마함', de:'A tense sense that something might go wrong', rk:'"불안"이라는 이름을 붙였습니다. 이름을 붙이는 순간 뇌의 경보 반응은 조금씩 가라앉기 시작합니다.', re:'You named it "anxious." The moment a feeling is named, the brain\'s alarm response starts to settle.'},
+  {k:'불안', e:'Anxious', dk:'뭔가 잘못될 것 같은 조마조마함', de:'A tense sense that something might go wrong', rk:'"불안"이라는 이름을 붙였습니다. 이름 붙이기는 느낌과 사실을 구분하는 데 도움이 될 수 있습니다.', re:'You named it "anxious." Naming a feeling may help separate the feeling from the facts.'},
   {k:'두려움', e:'Fear', dk:'구체적인 무언가에 겁이 나는 느낌', de:'Fear pointed at something specific', rk:'"두려움"이라는 이름을 붙였습니다. 두려움은 위험 신호이지 사실 그 자체는 아닙니다.', re:'You named it "fear." Fear is a signal about danger, not proof that danger is real.'},
-  {k:'긴장', e:'Tension', dk:'몸이 뻣뻣하고 조여드는 느낌', de:'A tight, stiff feeling in the body', rk:'"긴장"이라는 이름을 붙였습니다. 긴장은 몸의 반응일 뿐, 지금 몸을 풀어주면 함께 낮아집니다.', re:'You named it "tension." Tension is just a body response — it eases as the body relaxes.'},
+  {k:'긴장', e:'Tension', dk:'몸이 뻣뻣하고 조여드는 느낌', de:'A tight, stiff feeling in the body', rk:'"긴장"이라는 이름을 붙였습니다. 몸의 반응을 알아차렸으니, 편한 만큼 어깨와 손을 놓아보세요.', re:'You named it "tension." You noticed a body response; let your shoulders and hands release only as much as feels comfortable.'},
   {k:'혼란', e:'Confusion', dk:'생각이 뒤엉켜 정리가 안 되는 느낌', de:'Thoughts feel tangled and hard to sort', rk:'"혼란"이라는 이름을 붙였습니다. 지금 전부 정리할 필요는 없습니다. 한 가지만 붙잡아도 됩니다.', re:'You named it "confusion." You don\'t need to sort everything now — holding onto just one thing is enough.'},
   {k:'무서움', e:'Dread', dk:'막연히 나쁜 일이 닥칠 것 같은 느낌', de:'A vague sense that something bad is coming', rk:'"무서움"이라는 이름을 붙였습니다. 막연한 예감은 실제 일어날 확률과 다릅니다.', re:'You named it "dread." A vague premonition is different from an actual likelihood.'},
   {k:'지침', e:'Exhaustion', dk:'더 버틸 힘이 없는 것 같은 느낌', de:'A sense of having no strength left to cope', rk:'"지침"이라는 이름을 붙였습니다. 지금은 애쓰지 않아도 됩니다. 그냥 한 단계만 버티면 됩니다.', re:'You named it "exhaustion." You don\'t need to push right now — just hold on for one step.'}
@@ -1250,8 +1301,11 @@ function openSignage(mode){
   sgPos=0;
   renderSg();
 }
-function closeSignage(){
+function dismissSignage(){
   document.getElementById('signage').classList.remove('on');
+}
+function finishSignage(){
+  dismissSignage();
   go('link');
 }
 function renderSg(){
@@ -1294,7 +1348,7 @@ function sgChoice(kind){
 }
 function sgNext(){
   sgPos++;
-  if(sgPos>=sgSteps.length){ closeSignage(); return; }
+  if(sgPos>=sgSteps.length){ finishSignage(); return; }
   renderSg();
 }
 function sgPrev(){
@@ -1311,6 +1365,11 @@ function openFaaFromSignage(){
 }
 function getFaaInfo(){
   try{ return JSON.parse(localStorage.getItem('faaInfo')||'{}'); }catch(e){ return {}; }
+}
+function escapeHtml(value){
+  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  })[char]);
 }
 function saveFaaInfo(){
   const med=document.getElementById('faaMedInput').value;
@@ -1331,17 +1390,19 @@ function renderFaaCard(body){
       '</div>';
   } else {
     const info=getFaaInfo();
+    const safeMed=escapeHtml(info.med);
+    const safeAllergy=escapeHtml(info.allergy);
     if(faaEditing){
       body.innerHTML = '<div class="faa-back">'+
-        '<h4>복용약 / Medication</h4><input id="faaMedInput" value="'+(info.med||'').replace(/"/g,'&quot;')+'" placeholder="예: 자낙스 0.25mg / Xanax 0.25mg">'+
-        '<h4 style="margin-top:10px">알레르기 / Allergy</h4><input id="faaAllergyInput" value="'+(info.allergy||'').replace(/"/g,'&quot;')+'" placeholder="예: 페니실린 / Penicillin">'+
+        '<h4>복용약 / Medication</h4><input id="faaMedInput" value="'+safeMed+'" placeholder="예: 자낙스 0.25mg / Xanax 0.25mg">'+
+        '<h4 style="margin-top:10px">알레르기 / Allergy</h4><input id="faaAllergyInput" value="'+safeAllergy+'" placeholder="예: 페니실린 / Penicillin">'+
         '<button class="faa-flip" onclick="saveFaaInfo()" style="margin-top:12px; background:var(--faa-ink); color:#fff;">저장 / save</button>'+
         '</div>';
     } else {
-      body.innerHTML = '<div class="faa-back">'+
+        body.innerHTML = '<div class="faa-back">'+
         '<h4>진단 / Diagnosis</h4><div class="row">공황장애 · Panic disorder</div>'+
-        '<h4 style="margin-top:10px">복용약 / Medication</h4><div class="row" id="faaMed">'+(info.med? info.med : '<span style="color:#999">미입력 · not entered</span>')+'</div>'+
-        '<h4 style="margin-top:10px">알레르기 / Allergy</h4><div class="row" id="faaAllergy">'+(info.allergy? info.allergy : '<span style="color:#999">미입력 · not entered</span>')+'</div>'+
+        '<h4 style="margin-top:10px">복용약 / Medication</h4><div class="row" id="faaMed">'+(safeMed || '<span style="color:#999">미입력 · not entered</span>')+'</div>'+
+        '<h4 style="margin-top:10px">알레르기 / Allergy</h4><div class="row" id="faaAllergy">'+(safeAllergy || '<span style="color:#999">미입력 · not entered</span>')+'</div>'+
         '<button class="faa-flip" onclick="faaEdit()" style="margin-top:12px;">정보 입력·수정 / edit info</button>'+
         '<button class="faa-flip" onclick="faaFlip()" style="margin-top:8px;">‹ 뒤로 / back</button>'+
         '</div>';
@@ -1351,7 +1412,7 @@ function renderFaaCard(body){
 function faaFlip(){ faaFlipped=!faaFlipped; faaEditing=false; renderFaaCard(document.getElementById('sgBody')); }
 
 /* ===== PWA: 서비스워커 등록(오프라인 작동) ===== */
-if('serviceWorker' in navigator){
+if(isPublicWeb() && 'serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('sw.js').then(()=>{
       initOfflineBadge();
@@ -1391,6 +1452,7 @@ function initOfflineBadge(){
   function ask(){
     if(navigator.serviceWorker.controller){
       navigator.serviceWorker.controller.postMessage({type:'CHECK_MUSIC_CACHE'});
+      navigator.serviceWorker.controller.postMessage({type:'START_MUSIC_CACHE'});
     }
   }
 

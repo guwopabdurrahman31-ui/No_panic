@@ -5,15 +5,15 @@
 - 앱 표시 이름: `공황패스 SOS`
 - Play 스토어 제목: `공황패스 SOS - 공황발작 대처`
 - 패키지 이름: `com.guwopabdurrahman31ui.panicpasssos`
-- 버전 이름: `1.0.0`
-- 버전 코드: `4`
+- 버전 이름: `1.0.7`
+- 버전 코드: `11`
 - 카테고리: `건강/운동(Health & Fitness)`
 - 가격: `무료`
 - 광고 포함 여부: `아니요`
 - 로그인 필요 여부: `아니요`
 - 대상 연령: `만 18세 이상` 권장
-- 웹사이트: `https://guwopabdurrahman31-ui.github.io/No_panic/`
-- 개인정보처리방침: `https://guwopabdurrahman31-ui.github.io/No_panic/privacy_policy.html`
+- 웹사이트: `https://nopanic.travel-play-with.me/`
+- 개인정보처리방침: `https://nopanic.travel-play-with.me/privacy_policy.html`
 - 개발자 연락처: Play Console 계정에서 실제로 확인 가능한 이메일을 입력해야 함
 
 ## 짧은 설명
@@ -55,9 +55,9 @@
 
 앱의 짧은 활동들은 연구와 임상 가이드라인을 참고해 구성했지만, 각 앱 활동 자체가 급성 공황발작을 대상으로 임상시험됐다는 뜻은 아닙니다. 앱 안의 ‘이렇게 만들어졌습니다’에서 근거와 한계를 함께 확인할 수 있습니다.
 
-## 첫 출시 업데이트 문구
+## 1.0.7 업데이트 문구
 
-공황패스 SOS 첫 버전입니다. SOS 안내, 호흡·그라운딩·근육 이완, 집중 게임 2종, 오프라인 음악과 도움 요청 카드를 제공합니다. 회원가입·광고·데이터 전송 없이 사용할 수 있습니다.
+SOS 닫기 동작과 영문 안내 누락을 수정하고, 저장한 의료정보를 더 안전하게 표시하도록 개선했습니다. 의료 안내 표현을 공식 자료에 맞게 다듬고 Android WebView 보안을 강화했습니다.
 
 ## 스토어 검색 참고어
 
