@@ -17,6 +17,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 /**
  * 앱에 포함된 웹 화면을 Android WebView로 실행한다.
  *
@@ -31,15 +36,23 @@ public final class LauncherActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setStatusBarColor(Color.rgb(233, 239, 230));
-        getWindow().setNavigationBarColor(Color.rgb(233, 239, 230));
+        // Android 15+ forces edge-to-edge for apps targeting API 35 or later.
+        // Keep the offline WebView content clear of the status/navigation bars and cutouts.
+        WindowCompat.enableEdgeToEdge(getWindow());
 
         webView = new WebView(this);
         webView.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         configureWebView(webView);
+        ViewCompat.setOnApplyWindowInsetsListener(webView, (view, windowInsets) -> {
+            Insets safeArea = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+            view.setPadding(safeArea.left, safeArea.top, safeArea.right, safeArea.bottom);
+            return windowInsets;
+        });
         setContentView(webView);
+        ViewCompat.requestApplyInsets(webView);
 
         if (savedInstanceState == null) {
             webView.loadUrl(START_URL);

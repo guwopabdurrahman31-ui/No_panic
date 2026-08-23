@@ -15,8 +15,8 @@ android {
         applicationId 'com.guwopabdurrahman31ui.panicpasssos'
         minSdk 23
         targetSdk 36
-        versionCode 12
-        versionName '1.0.8'
+        versionCode 13
+        versionName '1.0.9'
     }
 
     signingConfigs {
@@ -60,6 +60,10 @@ android {
             assets.srcDir layout.buildDirectory.dir('generated/webAssets')
         }
     }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.17.0'
 }
 
 // 웹 PWA의 최신 화면과 음악을 앱 안에 포함한다. 네트워크나 TWA 없이 완전히 오프라인으로 실행된다.
