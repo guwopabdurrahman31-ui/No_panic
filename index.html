@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#e9efe6">
 <meta name="description" content="공황발작이 오기 전이나 시작됐을 때 바로 사용하는 무료 오프라인 대처 가이드">
+<meta name="author" content="SOO水">
+<meta name="copyright" content="© 2026 SOO水">
 <meta name="apple-mobile-web-app-title" content="공황패스 SOS">
 <meta property="og:title" content="공황패스 SOS — 공황발작 대처 가이드">
 <meta property="og:description" content="공황의 순간을 한 단계씩 건너기 위한 무료 오프라인 대처 가이드">
@@ -95,6 +97,10 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 
 .reassure{margin-top:18px; padding:16px 18px; border-radius:14px; background:var(--day-card2); border:1px solid rgba(61,92,77,.28); font-size:1rem; font-weight:600; line-height:1.5; color:var(--day-ink); text-align:center;}
 .footer{margin-top:14px; text-align:center; color:var(--day-sub); font-size:.74rem; line-height:1.6;}
+.footer-links{display:flex; align-items:center; justify-content:center; gap:9px; flex-wrap:wrap; margin-top:4px;}
+.footer-links a{display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:8px 4px; color:var(--day-accent); text-underline-offset:2px; font:inherit; text-decoration:underline;}
+.footer-links img{width:18px; height:18px; border-radius:50%; display:block;}
+.footer-divider{width:1px; height:15px; background:var(--line-day);}
 .privacy-link,.privacy-choice{display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 10px; color:var(--day-accent); text-underline-offset:2px; font:inherit;}
 .privacy-choice{border:0; background:transparent; text-decoration:underline; cursor:pointer;}
 .web-only{display:none;}
@@ -360,8 +366,16 @@ body.lang-en [lang-en]{display:revert !important;}
     <div class="footer">
       <span lang-ko>이 도구는 순간을 넘기기 위한 자가관리 보조 도구이며, 전문 치료를 대신하지 않습니다.<br>발작이 잦거나 일상에 지장이 있으면 정신건강의학과 상담을 함께 권합니다.<br>처음 겪는 심한 증상, 실신, 한쪽 마비, 또는 팔·턱·등으로 뻗치는 가슴 통증이 가라앉지 않으면 119에 연락하세요.<br><b>앱의 개인정보나 증상 기록은 이 기기 밖으로 나가지 않습니다.</b></span>
       <span lang-en>This is a self-management aid for getting through the moment — it does not replace professional treatment.<br>If attacks are frequent or disrupt daily life, please also consult a mental health professional.<br>Call emergency services for severe first-time symptoms, fainting, one-sided weakness, or chest pain spreading to the arm, jaw, or back that does not ease.<br><b>Personal data and symptom records in the app never leave this device.</b></span>
-      <br><a href="privacy_policy.html" class="privacy-link"><span lang-ko>개인정보처리방침 보기</span><span lang-en>Privacy policy</span></a>
-      <button type="button" class="privacy-choice web-only" onclick="openAnalyticsChoices()"><span lang-ko>이용 통계 선택</span><span lang-en>Analytics choices</span></button>
+      <div class="footer-links">
+        <a href="privacy_policy.html"><span lang-ko>개인정보처리방침 보기</span><span lang-en>Privacy policy</span></a>
+        <span class="footer-divider" aria-hidden="true"></span>
+        <a href="creator.html" aria-label="SOO水 창작자 및 권리 안내">
+          <img src="assets/soo-water/soo-water_00-base_dark.svg" alt="" aria-hidden="true">
+          <span>SOO水</span>
+        </a>
+        <button type="button" class="privacy-choice web-only" onclick="openAnalyticsChoices()"><span lang-ko>이용 통계 선택</span><span lang-en>Analytics choices</span></button>
+      </div>
+      <span>© 2026 SOO水. All rights reserved.</span>
     </div>
   </div>
 

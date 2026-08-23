@@ -1,12 +1,15 @@
 // 공황패스 SOS 웹사이트 서비스워커 — 오프라인 작동을 위한 캐싱
 // Android 앱은 이 파일을 사용하지 않고 번들에 포함된 자산으로 완전 오프라인 작동한다.
 
-const CACHE_NAME = 'panic-app-v11';
+const CACHE_NAME = 'panic-app-v12';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './privacy_policy.html',
+  './creator.html',
+  './COPYRIGHT.txt',
+  './assets/soo-water/soo-water_00-base_dark.svg',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/icons/icon-512-maskable.png'
