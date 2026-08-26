@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#28372C"/>
+  <path d="M348 276 Q512 126 676 276" fill="none" stroke="#F7F5EF" stroke-width="42" stroke-linecap="round"/>
+  <path d="M418 306 Q512 222 606 306" fill="none" stroke="#F7F5EF" stroke-width="42" stroke-linecap="round"/>
+  <rect x="0" y="362" width="1024" height="398" fill="#D96857"/>
+  <text x="512" y="625" fill="#F7F5EF" font-family="Apple SD Gothic Neo, Noto Sans KR, Arial, sans-serif" font-size="180" font-weight="900" letter-spacing="2" text-anchor="middle">공황 SOS</text>
+</svg>

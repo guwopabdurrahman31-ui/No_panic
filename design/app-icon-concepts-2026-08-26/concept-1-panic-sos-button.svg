@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#28372C"/>
+  <circle cx="512" cy="512" r="366" fill="#D96857" stroke="#F7F5EF" stroke-width="48"/>
+  <g fill="#FFFFFF" font-family="Apple SD Gothic Neo, Noto Sans KR, Arial, sans-serif" font-weight="800" text-anchor="middle">
+    <text x="512" y="470" font-size="166" letter-spacing="2">공황</text>
+    <text x="512" y="684" font-size="276" font-weight="900" letter-spacing="3">SOS</text>
+  </g>
+</svg>

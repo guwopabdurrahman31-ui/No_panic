@@ -109,6 +109,13 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 .btn:active{transform:scale(.98);}
 .btn.ghost{background:transparent; border:1px solid var(--line-day); color:var(--day-ink);}
 .btn.sos{background:var(--danger); font-size:1.05rem; padding:16px;}
+.start-note{margin:12px 0 2px; padding:12px 14px; border-radius:12px; background:rgba(61,92,77,.08); color:var(--day-sub); font-size:.84rem; line-height:1.55; text-align:center;}
+.method-library{margin-top:22px; border-top:1px solid var(--line-day); padding-top:4px;}
+.method-library summary{display:flex; align-items:center; justify-content:space-between; min-height:52px; color:var(--day-ink); font-size:.94rem; font-weight:700; cursor:pointer; list-style:none;}
+.method-library summary::-webkit-details-marker{display:none;}
+.method-library summary::after{content:'⌄'; color:var(--day-sub); font-size:1.25rem; transition:transform .18s ease;}
+.method-library[open] summary::after{transform:rotate(180deg);}
+.method-library .stagelabel:first-of-type{margin-top:4px;}
 
 .opt{display:flex; flex-direction:column; gap:10px;}
 .obtn{background:var(--day-card); border:1px solid var(--line-day); border-radius:14px; padding:15px; color:var(--day-ink); font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit; text-align:left; min-height:48px;}
@@ -141,10 +148,13 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 6px; letter-spacing:-.02em;}
 .sg-dots i.act{background:var(--night-accent); width:22px; border-radius:4px;}
 .sg-close{position:absolute; top:16px; right:18px; background:none; border:none; color:var(--night-sub); font-size:1.7rem; cursor:pointer; min-width:44px; min-height:44px;}
 .sg-pic{width:200px; height:200px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; color:var(--night-accent);}
+.sg-step{margin-bottom:18px; color:var(--night-accent); font-size:.82rem; font-weight:700; letter-spacing:.08em;}
 .sg-word{font-family:'Maruburi',sans-serif; font-size:2.1rem; font-weight:700; color:var(--night-ink); letter-spacing:-.01em;}
+.sg-hint{max-width:280px; margin:9px auto 0; color:var(--night-sub); font-size:.9rem; line-height:1.5;}
 .sg-nav{position:absolute; bottom:0; left:0; right:0; display:flex; height:96px;}
 .sg-nav button{flex:1; border:none; background:transparent; color:var(--night-sub); font-size:2rem; cursor:pointer; font-family:inherit; min-height:44px;}
 .sg-nav .mid{flex:2; background:var(--night-card); color:var(--night-ink); font-size:1.3rem; font-weight:700;}
+.sg-nav .skip{font-size:.82rem; font-weight:700;}
 .sg-nav button:active{filter:brightness(1.15);}
 
 /* 나를 도와주세요 — 좌측 상단, 눈에 띄게 */
@@ -235,8 +245,8 @@ body.lang-en [lang-en]{display:revert !important;}
   <div id="sgBody"></div>
   <div class="sg-nav" id="sgNav">
     <button onclick="sgPrev()" aria-label="이전">‹</button>
-    <button class="mid" id="sgMidBtn" onclick="sgNext()">됐어요</button>
-    <button onclick="sgNext()" aria-label="다음">›</button>
+    <button class="mid" id="sgMidBtn" onclick="sgNext()"><span lang-ko>다음 단계</span><span lang-en>Next step</span></button>
+    <button class="skip" onclick="sgNext()"><span lang-ko>건너뛰기</span><span lang-en>Skip</span></button>
   </div>
 </div>
 
@@ -254,15 +264,18 @@ body.lang-en [lang-en]{display:revert !important;}
     <p class="lead" lang-ko>이미 겪어온 공황과 비슷하다면, 이 강한 느낌은 대개 정점을 지나 내려갑니다. 처음이거나 평소와 다르다면 아래의 응급 기준을 먼저 확인하세요.</p>
     <p class="lead" lang-en>If this feels like panic you have experienced before, the intensity will usually peak and ease. If it is new or different from usual, check the emergency signs below first.</p>
 
-    <button class="btn sos" onclick="openSignage('emergency')">
-      <span lang-ko>🆘 SOS</span>
-      <span lang-en>🆘 SOS</span>
+    <button class="btn sos" onclick="openSignage('guided')">
+      <span lang-ko>🆘 공황 SOS 시작 — 1단계</span>
+      <span lang-en>🆘 Start Panic SOS — Step 1</span>
     </button>
     <button class="btn" onclick="go('look')" style="margin-top:8px">
-      <span lang-ko>차분히 정말로 가라앉히기 →</span>
-      <span lang-en>Truly settle down, step by step →</span>
+      <span lang-ko>내 상태에 맞는 시작점 고르기 →</span>
+      <span lang-en>Choose a starting point for how you feel →</span>
     </button>
+    <div class="start-note"><span lang-ko>지금은 모든 방법을 할 필요가 없습니다. 한 단계만 해보고, 불편하면 바로 건너뛰세요.</span><span lang-en>You do not need to do every method now. Try one step, and skip it if it feels uncomfortable.</span></div>
 
+    <details class="method-library">
+      <summary><span lang-ko>다른 방법 직접 고르기</span><span lang-en>Choose another method directly</span></summary>
     <div class="stagelabel" lang-ko>숨과 감각으로 몸 달래기</div>
     <div class="stagelabel" lang-en>Soothe the body with breath and sensation</div>
     <div class="menu">
@@ -346,6 +359,7 @@ body.lang-en [lang-en]{display:revert !important;}
         <div class="mbody"><h3 lang-ko>넘긴 뒤 챙기기</h3><h3 lang-en>After you've gotten through it</h3><p lang-ko>정리하고 필요하면 연결하기</p><p lang-en>Wrap up, connect to help if needed</p></div>
       </div>
     </div>
+    </details>
 
     <div class="reassure">
       <span lang-ko>많은 공황발작은 시간이 지나며 강도가 낮아집니다.<br>지금은 한 단계만 해보세요.</span>
@@ -728,9 +742,9 @@ body.lang-en [lang-en]{display:revert !important;}
       <div class="detail"><span lang-ko>음악과 자연음은 일부 불안 상황에서 이완을 돕는 보조 수단으로 연구됐지만, 세 종류의 소리가 특정 공황 증상에 각각 더 효과적이라는 직접 근거는 없습니다. 이 앱의 분류는 효과 보장이 아니라 사용자가 편한 소리를 고르기 위한 선택지입니다. 저작권은 개발자 본인 소유입니다.</span><span lang-en>Music and nature sounds have been studied as relaxation aids in some anxiety settings, but there is no direct evidence that each of these three options works better for a particular panic symptom. The categories are choices, not effectiveness claims. The developer owns the audio copyright.</span></div>
     </div>
     <div class="evbox" onclick="this.classList.toggle('open')">
-      <div class="h"><div class="name"><span lang-ko>방법을 매번 다르게</span><span lang-en>Varying the order</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
-      <div class="basis"><span lang-ko>선택권과 반복 사용성</span><span lang-en>Choice and repeat use</span></div>
-      <div class="detail"><span lang-ko>사람마다 편한 방법이 다를 수 있어 SOS 순서를 조금씩 바꿉니다. 순서를 무작위로 바꾸는 것이 치료 효과를 높인다는 직접 근거는 없으며, 사용자가 맞지 않는 방법을 건너뛸 수 있게 하기 위한 설계입니다.</span><span lang-en>The SOS order varies because different methods may feel comfortable to different people. There is no direct evidence that randomizing the order improves treatment outcomes; it is a design choice that lets users skip methods that do not fit.</span></div>
+      <div class="h"><div class="name"><span lang-ko>단계는 왜 정해져 있나요?</span><span lang-en>Why are the steps ordered?</span></div><div class="more"><span lang-ko>더보기 ›</span><span lang-en>More ›</span></div></div>
+      <div class="basis"><span lang-ko>행동 부담을 줄이는 안내 순서</span><span lang-en>An order that lowers action burden</span></div>
+      <div class="detail"><span lang-ko>공황 SOS는 먼저 몸을 받치고 힘을 놓는 간단한 행동부터 안내한 뒤, 감각·호흡·생각 다루기로 이어집니다. 이 순서가 치료 효과를 보장한다는 뜻은 아니며, 불편하거나 맞지 않는 단계는 언제든 건너뛸 수 있습니다.</span><span lang-en>Panic SOS starts with simple actions that support the body and release tension, then moves to sensory, breathing, and thought-based options. This order does not guarantee a treatment effect, and any uncomfortable step can be skipped.</span></div>
     </div>
 
     <div style="border-top:1px solid var(--line-day); padding-top:12px; margin-top:6px;">
@@ -1274,41 +1288,49 @@ let sgSteps=[], sgPos=0, sgMode='';
 const sgLibrary={
   breathe:{
     pic:()=>'<div class="sg-breath"></div>',
-    wordKo:'숨쉬기', wordEn:'Breathe'
+    wordKo:'길게 숨 내쉬기', wordEn:'Long exhale',
+    hintKo:'숨에 집중할수록 답답하면 바로 건너뛰세요.', hintEn:'Skip this if focusing on breathing feels worse.'
   },
   cold:{
     pic:()=>'<div class="sg-icon-lg sg-pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v14M8 8l4-4 4 4M8 18h8"/></svg></div>',
-    wordKo:'찬물 — 얼굴에', wordEn:'Cold water — on your face'
+    wordKo:'찬 감각 느끼기', wordEn:'Feel a cold sensation',
+    hintKo:'찬물·얼음·찬 공기 중 편한 것을 하나만.', hintEn:'Try just one: cool water, ice, or cool air.'
   },
   wave:{
     pic:()=>'<div class="sg-wave"><div class="sg-wball"></div></div>',
-    wordKo:'그냥 보기', wordEn:'Just watch'
+    wordKo:'파도를 지켜보기', wordEn:'Watch the wave',
+    hintKo:'없애려 애쓰지 말고, 지나가게 두세요.', hintEn:'Do not fight it; let it pass.'
   },
   fact:{
     pic:()=>'<div class="sg-icon-lg sg-pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z"/></svg></div>',
-    wordKo:'괜찮다 — 되뇌기', wordEn:'You are okay — say it'
+    wordKo:'사실 한 문장 되뇌기', wordEn:'Repeat one steady fact',
+    hintKo:'평소 공황과 같은 양상이라면, 이 강한 느낌은 변합니다.', hintEn:'If this matches your usual panic, this intense feeling will change.'
   },
   ground:{
     pic:()=>'<div class="sg-icon-lg sg-pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div>',
-    wordKo:'보이는 것 5개 찾기', wordEn:'Find 5 things you can see'
+    wordKo:'지금 여기 느끼기', wordEn:'Notice the here and now',
+    hintKo:'눈에 보이는 것 하나만 천천히 찾아보세요.', hintEn:'Slowly find just one thing you can see.'
   },
   relax:{
     pic:()=>'<div class="sg-icon-lg sg-pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8c2-2 4-2 6 0s4 2 8-1M5 16c2 2 4 2 6 0s4-2 8 1"/><path d="M3 12h18"/></svg></div>',
-    wordKo:'어깨와 손 — 힘 놓기', wordEn:'Shoulders and hands — release'
+    wordKo:'어깨와 손의 힘 놓기', wordEn:'Release shoulders and hands',
+    hintKo:'앉거나 기대고, 힘을 한 번만 가볍게 놓으세요.', hintEn:'Sit or lean, then gently let the tension go once.'
   }
 };
 
 function buildSgHtml(key){
   const en=document.body.classList.contains('lang-en');
   const item=sgLibrary[key];
-  return item.pic()+'<div class="sg-word">'+(en?item.wordEn:item.wordKo)+'</div>';
+  const total=sgSteps.filter((value)=>value!=='choice' && value!=='faacard').length;
+  const current=sgSteps.slice(0,sgPos+1).filter((value)=>value!=='choice' && value!=='faacard').length;
+  return '<div class="sg-step">'+(en?'STEP ':'')+current+(en?' / ':'단계 / ')+total+'</div>'+item.pic()+'<div class="sg-word">'+(en?item.wordEn:item.wordKo)+'</div><div class="sg-hint">'+(en?item.hintEn:item.hintKo)+'</div>';
 }
 
 function openSignage(mode){
   sgMode=mode;
   document.getElementById('signage').classList.add('on');
   if(mode==='emergency'){
-    sgSteps = shuffle(['breathe','cold','relax','wave','fact','ground']);
+    sgSteps = ['relax','ground','breathe','fact','wave'];
   } else {
     sgSteps = ['choice']; // 가이드모드는 증상선택부터 시작
   }
@@ -1349,14 +1371,14 @@ function renderSg(){
     return;
   }
   nav.style.display='flex';
-  document.getElementById('sgMidBtn').textContent = en? 'Done':'됐어요';
+  document.getElementById('sgMidBtn').textContent = sgPos===sgSteps.length-1 ? (en?'Finish':'마쳤어요') : (en?'Next step':'다음 단계');
   body.innerHTML = buildSgHtml(step);
 }
 function sgChoice(kind){
-  // 선택 결과에 따라 몸진정→생각교정 순서로 단계 구성 (가이드모드 핵심)
-  if(kind==='heart') sgSteps=['choice','cold','breathe','relax','fact','wave','ground'];
-  else if(kind==='thought') sgSteps=['choice','breathe','relax','fact','wave','ground'];
-  else sgSteps=['choice','relax','breathe','wave','fact','ground'];
+  // 먼저 몸을 받치고, 감각·호흡을 거쳐 생각 다루기로 이어지는 고정 단계.
+  if(kind==='heart') sgSteps=['choice','relax','cold','breathe','ground','fact','wave'];
+  else if(kind==='thought') sgSteps=['choice','relax','ground','breathe','fact','wave'];
+  else sgSteps=['choice','relax','ground','wave','breathe','fact'];
   sgPos=1;
   renderSg();
 }
