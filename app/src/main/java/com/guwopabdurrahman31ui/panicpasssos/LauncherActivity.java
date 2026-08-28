@@ -37,22 +37,31 @@ public final class LauncherActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // Android 15+ forces edge-to-edge for apps targeting API 35 or later.
-        // Keep the offline WebView content clear of the status/navigation bars and cutouts.
+        // Keep the offline WebView's actual viewport clear of system bars and cutouts.
+        // Applying insets to the parent is intentional: WebView padding can still allow
+        // absolutely positioned HTML controls to render beneath the status bar on some devices.
         WindowCompat.enableEdgeToEdge(getWindow());
+
+        FrameLayout safeAreaContainer = new FrameLayout(this);
+        safeAreaContainer.setLayoutParams(new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        safeAreaContainer.setBackgroundColor(Color.rgb(246, 247, 242));
 
         webView = new WebView(this);
         webView.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         configureWebView(webView);
-        ViewCompat.setOnApplyWindowInsetsListener(webView, (view, windowInsets) -> {
+        safeAreaContainer.addView(webView);
+        ViewCompat.setOnApplyWindowInsetsListener(safeAreaContainer, (view, windowInsets) -> {
             Insets safeArea = windowInsets.getInsets(
                     WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
             view.setPadding(safeArea.left, safeArea.top, safeArea.right, safeArea.bottom);
             return windowInsets;
         });
-        setContentView(webView);
-        ViewCompat.requestApplyInsets(webView);
+        setContentView(safeAreaContainer);
+        ViewCompat.requestApplyInsets(safeAreaContainer);
 
         if (savedInstanceState == null) {
             webView.loadUrl(START_URL);
@@ -78,7 +87,7 @@ public final class LauncherActivity extends Activity {
         settings.setDisplayZoomControls(false);
 
         CookieManager.getInstance().setAcceptCookie(false);
-        view.setBackgroundColor(Color.rgb(233, 239, 230));
+        view.setBackgroundColor(Color.rgb(246, 247, 242));
         view.setWebChromeClient(new WebChromeClient());
         view.setWebViewClient(new WebViewClient() {
             @Override

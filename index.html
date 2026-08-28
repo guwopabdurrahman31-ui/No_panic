@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#e9efe6">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f6f7f2">
 <meta name="description" content="공황발작이 오기 전이나 시작됐을 때 바로 사용하는 무료 오프라인 대처 가이드">
 <meta name="author" content="SOO水">
 <meta name="copyright" content="© 2026 SOO水">
@@ -31,14 +31,16 @@
 }
 :root{
   /* 평상시 팔레트 */
-  --day-bg:#e9efe6;
-  --day-card:#d9e4d3;
-  --day-card2:#c8d6c1;
-  --ev-card:#ecdfc8;
-  --ev-line: rgba(122,92,46,.22);
-  --day-ink:#28372c;
-  --day-sub:#5c6d61;
-  --day-accent:#3d5c4d;
+  --day-bg:#f6f7f2;
+  --day-surface:#ffffff;
+  --day-card:#edf2ec;
+  --day-card2:#e5ede5;
+  --ev-card:#f5eee1;
+  --ev-line:rgba(122,92,46,.18);
+  --day-ink:#203029;
+  --day-sub:#5b6a62;
+  --day-accent:#345d4c;
+  --day-accent-soft:#e4eee8;
   /* 발작중(SOS) 팔레트 */
   --night-bg:#1c2620;
   --night-card:#2c3f34;
@@ -48,9 +50,18 @@
   /* 승무원 카드 예외 팔레트 */
   --faa-bg:#f7f5ef;
   --faa-ink:#1a1a1a;
-  --line-day: rgba(61,92,77,.16);
+  --line-day:rgba(52,93,76,.14);
   --line-night: rgba(255,255,255,.09);
-  --danger:#c96a5a;
+  --danger:#df3038;
+  --danger-deep:#b71927;
+  --state-yellow:#ffd83d;
+  --state-yellow-deep:#efb900;
+  --state-yellow-line:#c18f00;
+  --method-green:#35c96b;
+  --method-green-deep:#13a958;
+  --method-green-line:#08743c;
+  --method-green-ink:#052f19;
+  --shadow-soft:0 8px 24px rgba(32,48,41,.07);
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 html,body{margin:0; padding:0;}
@@ -62,7 +73,7 @@ body{
   line-height:1.55;
   overflow-x:hidden;
 }
-.wrap{max-width:520px; margin:0 auto; padding:20px 18px 32px;}
+.wrap{max-width:560px; margin:0 auto; padding:calc(24px + env(safe-area-inset-top, 0px)) 20px calc(36px + env(safe-area-inset-bottom, 0px));}
 h1{font-size:1.4rem; font-weight:700; margin:2px 0 4px; letter-spacing:-.02em;}
 .lead{color:var(--day-sub); font-size:.88rem; margin:0 0 16px; line-height:1.45;}
 
@@ -109,7 +120,6 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 4px; letter-spacing:-.02em;}
 .btn:active{transform:scale(.98);}
 .btn.ghost{background:transparent; border:1px solid var(--line-day); color:var(--day-ink);}
 .btn.sos{background:var(--danger); font-size:1.05rem; padding:16px;}
-.start-note{margin:10px 0 0; padding:10px 14px; border-radius:12px; background:rgba(61,92,77,.08); color:var(--day-sub); font-size:.82rem; line-height:1.45; text-align:center;}
 .method-library{margin-top:18px;}
 .method-library summary{display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:72px; padding:12px 14px; border:1px solid rgba(61,92,77,.24); border-radius:14px; background:var(--day-card2); color:var(--day-ink); cursor:pointer; list-style:none;}
 .method-library summary::-webkit-details-marker{display:none;}
@@ -223,6 +233,76 @@ h1{font-size:1.4rem; font-weight:700; margin:2px 0 4px; letter-spacing:-.02em;}
 .pair-card .pair-back{font-size:1.2rem; opacity:.65;}
 .game-note{background:rgba(61,92,77,.08); border-radius:12px; padding:11px 12px; color:var(--day-sub); font-size:.8rem; line-height:1.6; margin-top:12px;}
 
+/* ===== 2026-08 mobile comfort refresh ===== */
+.home-header{display:flex; align-items:flex-start; justify-content:space-between; gap:18px; margin-bottom:22px;}
+.home-title{min-width:0; padding-top:2px;}
+.home-title h1{font-size:1.58rem; line-height:1.2; margin:0 0 7px; letter-spacing:-.035em;}
+.home-title .lead{max-width:340px; margin:0; color:var(--day-sub); font-size:.91rem; line-height:1.55; word-break:keep-all;}
+.langtoggle{position:static; flex:0 0 auto; border:1px solid var(--line-day); border-radius:14px; padding:3px; background:var(--day-card); box-shadow:none;}
+.langtoggle button{min-width:42px; min-height:40px; padding:7px 10px; border-radius:10px; font-size:.76rem;}
+.langtoggle button.active{background:var(--day-surface); color:var(--day-accent); box-shadow:0 2px 7px rgba(32,48,41,.10);}
+
+.home-actions{display:flex; flex-direction:column; gap:12px;}
+.home-action{width:100%; height:124px; min-height:124px; border:1px solid transparent; border-radius:18px; padding:14px 16px; display:flex; align-items:center; gap:13px; color:var(--day-ink); background:var(--day-surface); box-shadow:var(--shadow-soft); cursor:pointer; font-family:inherit; text-align:left;}
+.home-action:active{transform:scale(.985);}
+.home-action-sos{height:124px; min-height:124px; color:#fff; background:linear-gradient(135deg,var(--danger),var(--danger-deep)); border-color:#981321; box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 8px 20px rgba(183,25,39,.26);}
+.home-action-state{background:linear-gradient(135deg,var(--state-yellow),var(--state-yellow-deep)); border-color:var(--state-yellow-line); box-shadow:inset 0 1px 0 rgba(255,255,255,.48),0 8px 20px rgba(193,143,0,.22);}
+.action-icon{display:flex; align-items:center; justify-content:center; flex:0 0 44px; width:44px; height:44px; border-radius:14px; background:var(--day-accent-soft); color:var(--day-accent); font-size:.75rem; font-weight:700; letter-spacing:.02em;}
+.home-action-sos .action-icon{background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.22);}
+.home-action-state .action-icon{background:rgba(255,255,255,.58); color:#6b5200; border:1px solid rgba(126,92,0,.18);}
+.home-action-state .action-copy small{color:#493b00;}
+.action-icon svg{width:22px; height:22px; stroke-width:2;}
+.action-copy{display:flex; flex-direction:column; flex:1; min-width:0;}
+.action-copy strong{font-size:1.02rem; line-height:1.35; letter-spacing:-.02em;}
+.action-copy small{margin-top:3px; color:var(--day-sub); font-size:.75rem; font-weight:400; line-height:1.4;}
+.home-action-sos .action-copy small{color:#fff; opacity:.92;}
+.action-arrow{flex:0 0 auto; width:20px; height:20px; opacity:.72;}
+.method-library{margin-top:12px;}
+.method-library summary{display:grid; grid-template-columns:44px minmax(0,1fr) 64px; align-items:center; gap:11px; height:124px; min-height:124px; padding:14px 16px; border-color:var(--method-green-line); border-radius:18px; background:linear-gradient(135deg,var(--method-green),var(--method-green-deep)); color:var(--method-green-ink); box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 8px 20px rgba(8,116,60,.20);}
+.method-summary-icon{display:flex; align-items:center; justify-content:center; width:44px; height:44px; border:1px solid rgba(5,47,25,.24); border-radius:14px; background:rgba(255,255,255,.48); color:var(--method-green-ink);}
+.method-summary-icon svg{width:25px; height:25px; stroke-width:1.9;}
+.method-summary-copy strong{font-size:.98rem; letter-spacing:-.015em; word-break:keep-all;}
+.method-summary-copy small{margin-top:5px; color:var(--method-green-ink); font-size:.69rem; line-height:1.4; word-break:keep-all;}
+.method-expand{width:64px; padding:7px 5px; justify-content:center; flex-wrap:wrap; gap:2px; border-radius:10px; background:rgba(255,255,255,.76); color:var(--method-green-ink); font-size:.69rem; line-height:1.25; text-align:center;}
+.method-expand span{word-break:keep-all;}
+.method-library[open] summary{margin-bottom:16px;}
+.stagelabel{margin:20px 2px 9px; font-size:.73rem; letter-spacing:.03em;}
+.mcard{border-color:var(--line-day); border-radius:15px; background:var(--day-surface); min-height:110px; padding:14px 11px; box-shadow:none;}
+.mcard.menu-1-item{min-height:74px; padding:13px 15px;}
+.mbody h3{font-size:.92rem;}
+.mbody p{font-size:.73rem;}
+
+.home-more-title{margin:23px 2px 9px; color:var(--day-sub); font-size:.74rem; font-weight:700; letter-spacing:.03em;}
+.home-info{margin-top:0;}
+.home-info .mcard{min-height:92px; padding:14px; flex-direction:row; justify-content:flex-start; gap:11px; text-align:left; background:var(--day-surface);}
+.home-info .micon{display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:12px; background:var(--ev-card);}
+.home-info .mbody{text-align:left;}
+.home-info .mbody h3{font-size:.88rem; line-height:1.4; word-break:keep-all;}
+.home-info .mbody p{margin-top:3px; font-size:.7rem; line-height:1.35;}
+
+.safety-note{position:relative; margin:18px 0 0; padding:13px 14px 13px 42px; border:1px solid var(--ev-line); border-radius:15px; background:#faf5ec; color:#675c4d; font-size:.76rem; line-height:1.55; text-align:left; word-break:keep-all;}
+.safety-note::before{content:'!'; position:absolute; left:14px; top:14px; width:18px; height:18px; border:1px solid rgba(103,92,77,.46); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.68rem; font-weight:700;}
+.footer{margin-top:24px; padding-top:19px; border-top:1px solid var(--line-day); font-size:.69rem; line-height:1.65;}
+.footer-links{margin-top:3px; gap:8px;}
+.footer-links a{min-height:40px; padding:6px 3px;}
+
+button:focus-visible,a:focus-visible,summary:focus-visible,[onclick]:focus-visible{outline:3px solid rgba(52,93,76,.32); outline-offset:3px;}
+@media (max-width:380px){
+  .wrap{padding-left:16px; padding-right:16px;}
+  .home-header{gap:12px;}
+  .home-title h1{font-size:1.42rem;}
+  .langtoggle button{min-width:38px; padding-left:8px; padding-right:8px;}
+  .home-action,.home-action-sos{height:136px; min-height:136px; padding-left:13px; padding-right:13px;}
+  .method-library summary{grid-template-columns:42px minmax(0,1fr) 60px; height:136px; min-height:136px; padding-left:13px; padding-right:11px; gap:9px;}
+  .method-summary-icon{width:42px; height:42px;}
+  .method-expand{width:60px;}
+  .home-info{grid-template-columns:1fr;}
+  .home-info .mcard{min-height:74px;}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important;}
+}
+
 [lang-en]{display:none !important;}
 body.lang-en [lang-ko]{display:none !important;}
 body.lang-en [lang-en]{display:revert !important;}
@@ -262,33 +342,46 @@ body.lang-en [lang-en]{display:revert !important;}
 
   <!-- ===== 홈 ===== -->
   <div id="home" class="screen on">
-    <div id="offlineBadge" style="display:none; position:fixed; top:calc(env(safe-area-inset-top, 0px) + 10px); left:50%; transform:translateX(-50%); font-size:.8rem; font-weight:700; padding:7px 16px; border-radius:16px; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,.15); white-space:nowrap;"></div>
-    <div class="langtoggle">
-      <button id="langKo" class="active" onclick="setLang('ko')">한</button>
-      <button id="langEn" onclick="setLang('en')">EN</button>
+    <div id="offlineBadge" style="display:none; position:fixed; bottom:calc(env(safe-area-inset-bottom, 0px) + 12px); left:50%; transform:translateX(-50%); font-size:.8rem; font-weight:700; padding:7px 16px; border-radius:16px; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,.15); white-space:nowrap;"></div>
+    <div class="home-header">
+      <div class="home-title">
+        <h1 lang-ko>공황패스 SOS</h1>
+        <h1 lang-en>Panic Pass SOS</h1>
+        <p class="lead" lang-ko>하나씩 게임하듯 따라하면 공황을 극복할 수 있습니다.</p>
+        <p class="lead" lang-en>Follow each step like a game to help overcome panic.</p>
+      </div>
+      <div class="langtoggle" role="group" aria-label="언어 선택">
+        <button id="langKo" class="active" onclick="setLang('ko')" aria-label="한국어">한</button>
+        <button id="langEn" onclick="setLang('en')" aria-label="English">EN</button>
+      </div>
     </div>
-    <h1 lang-ko>공황패스 SOS</h1>
-    <h1 lang-en>Panic Pass SOS</h1>
-    <p class="lead" lang-ko>익숙한 공황이라면, 지금은 한 단계만 해보세요.</p>
-    <p class="lead" lang-en>If this feels like familiar panic, take just one step now.</p>
 
-    <button class="btn sos" onclick="openSignage('guided')">
-      <span lang-ko>🆘 공황 SOS 시작</span>
-      <span lang-en>🆘 Start Panic SOS</span>
-    </button>
-    <button class="btn" onclick="go('look')" style="margin-top:8px">
-      <span lang-ko>내 상태 고르기 →</span>
-      <span lang-en>Choose how I feel →</span>
-    </button>
-    <div class="start-note"><span lang-ko>한 단계씩 · 불편하면 건너뛰기</span><span lang-en>One step at a time · Skip if uncomfortable</span></div>
-
+    <div class="home-actions">
+      <button class="home-action home-action-sos" onclick="openSignage('guided')">
+        <span class="action-icon" aria-hidden="true">SOS</span>
+        <span class="action-copy">
+          <strong lang-ko>지금 공황 SOS 시작</strong><strong lang-en>Start Panic SOS now</strong>
+          <small lang-ko>화면을 보며 한 단계씩 바로 따라가요</small><small lang-en>Follow one step at a time on screen</small>
+        </span>
+        <svg class="action-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+      <button class="home-action home-action-state" onclick="go('look')">
+        <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h5v-5h5v-5h5V5h3"/><path d="m17 2 4 3-4 3"/></svg></span>
+        <span class="action-copy">
+          <strong lang-ko>내 상태에 맞게 한단계씩 따라하기</strong><strong lang-en>Follow one step at a time for how I feel</strong>
+          <small lang-ko>상태에 맞는 시작 단계를 안내해요</small><small lang-en>Get a starting step that fits your state</small>
+        </span>
+        <svg class="action-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
     <details class="method-library">
       <summary>
+        <span class="method-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><circle cx="17.5" cy="6.5" r="3.5"/><path d="M3 18c1.2-2.8 2.4 2.8 3.6 0s2.4 2.8 3.6 0"/><path d="m17.5 14 .9 2.1 2.3.2-1.8 1.5.6 2.2-2-1.2-2 1.2.6-2.2-1.8-1.5 2.3-.2z"/></svg></span>
         <span class="method-summary-copy">
-          <strong lang-ko>하나씩 따라가는 공황극복 12개</strong><strong lang-en>12 panic coping steps to follow</strong>
-          <small lang-ko>호흡 · 감각 · 집중 · 음악 등 12가지</small><small lang-en>12 options: breath · senses · focus · music</small>
+          <strong lang-ko>차근차근 마음 가라앉히기<br>12가지 방법</strong><strong lang-en>12 ways to calm your mind step by step</strong>
+          <small lang-ko>진정음악, 진정게임, 호흡안정게임, 같이 숨쉬기, 다른 거 찾아보기 등 편한 방법을 골라요</small><small lang-en>Choose what feels right: calming music, games, breathing games, breathing together, and more</small>
         </span>
-        <span class="method-expand"><span lang-ko>살펴보기</span><span lang-en>Explore</span><b aria-hidden="true">⌄</b></span>
+        <span class="method-expand"><span lang-ko>하나씩 해보기</span><span lang-en>Try one by one</span><b aria-hidden="true">⌄</b></span>
       </summary>
     <div class="stagelabel" lang-ko>숨과 감각으로 몸 달래기</div>
     <div class="stagelabel" lang-en>Soothe the body with breath and sensation</div>
@@ -375,14 +468,15 @@ body.lang-en [lang-en]{display:revert !important;}
     </div>
     </details>
 
+    <div class="home-more-title"><span lang-ko>더 알아보기</span><span lang-en>Learn more</span></div>
     <div class="menu home-info">
       <div class="mcard mcard-info" onclick="go('about')">
         <div class="micon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-        <div class="mbody"><h3 lang-ko>공황 이해</h3><h3 lang-en>About panic</h3></div>
+        <div class="mbody"><h3 lang-ko>공황 이해</h3><h3 lang-en>About panic</h3><p lang-ko>몸과 마음에서 일어나는 변화</p><p lang-en>What happens in body and mind</p></div>
       </div>
       <div class="mcard mcard-info" onclick="go('evidence')">
         <div class="micon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z"/></svg></div>
-        <div class="mbody"><h3 lang-ko>근거 · 안전</h3><h3 lang-en>Evidence & safety</h3></div>
+        <div class="mbody"><h3 lang-ko>공황극복 이론과 근거</h3><h3 lang-en>Panic recovery theory &amp; evidence</h3><p lang-ko>사용 방법과 주의사항</p><p lang-en>Guidance and precautions</p></div>
       </div>
     </div>
 
