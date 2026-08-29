@@ -1,7 +1,7 @@
 # 공황패스 SOS Play 제출 패키지
 
-- `release/panic-pass-sos-v1.0.15.aab`: 최신 Google Play 업데이트용 서명 AAB
-- `release/panic-pass-sos-v1.0.15.apk`: 최신 실제 기기 설치 확인용 서명 APK
+- `release/panic-pass-sos-v1.0.16.aab`: 최신 Google Play 업데이트용 서명 AAB
+- `release/panic-pass-sos-v1.0.16.apk`: 최신 실제 기기 설치 확인용 서명 APK
 - `release/upload_certificate.pem`: Play 업로드 키 공개 인증서
 - `release/SHA256SUMS.txt`: 배포 파일 무결성 확인값
 - `assets/app-icon-512.png`: 512×512 Play 아이콘
