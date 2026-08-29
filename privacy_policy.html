@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="SOO水">
     <meta name="copyright" content="© 2026 SOO水">
-    <title>개인정보처리방침 - 공황패스 SOS</title>
+    <title>개인정보처리방침 · Privacy Policy - 공황패스 SOS</title>
     <style>
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
@@ -43,12 +43,45 @@
             text-align: center;
             margin: 20px 0;
         }
+        .language-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .language-switch button {
+            min-height: 44px;
+            padding: 8px 14px;
+            border: 1px solid #bdc9c1;
+            border-radius: 10px;
+            background: #fff;
+            color: #2c3e50;
+            font: inherit;
+            cursor: pointer;
+        }
+        .language-switch button[aria-pressed="true"] {
+            background: #2f5e49;
+            border-color: #2f5e49;
+            color: #fff;
+        }
+        [hidden] { display: none !important; }
+        a { color: #245f46; text-underline-offset: 2px; }
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .container { padding: 24px 18px; }
+            h1 { font-size: 1.55rem; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="language-switch" role="group" aria-label="언어 선택 · Language selection">
+            <button id="policyKoButton" type="button" aria-pressed="true" onclick="setPolicyLang('ko')">한국어</button>
+            <button id="policyEnButton" type="button" aria-pressed="false" onclick="setPolicyLang('en')">English</button>
+        </div>
+        <section id="policyKo" lang="ko">
         <h1>'공황패스 SOS' 개인정보처리방침</h1>
-        <p>시행일자: 2026년 8월 2일 (2026년 8월 17일 최종 수정)</p>
+        <p>시행일자: 2026년 8월 2일 (2026년 8월 29일 최종 수정)</p>
 
         <div class="highlight">
             '공황패스 SOS' Android 앱은 인터넷 권한이 없으며 개인정보·증상 기록·이용 통계를 외부로 전송하지 않습니다. 웹사이트는 사용자가 허용한 경우에만 Google Analytics 익명 이용 통계를 사용합니다(4항 참고).
@@ -71,6 +104,45 @@
 
         <h2>6. 문의처</h2>
         <p>개인정보처리방침에 대해 궁금하신 점은 <a href="https://github.com/guwopabdurrahman31-ui/No_panic/issues">공황패스 SOS GitHub 문의 페이지</a> 또는 Play 스토어에 표시된 개발자 이메일을 통해 문의해 주시기 바랍니다.</p>
+        </section>
+
+        <section id="policyEn" lang="en" hidden>
+        <h1>'Panic Pass SOS' Privacy Policy</h1>
+        <p>Effective: August 2, 2026 (last updated August 29, 2026)</p>
+
+        <div class="highlight">
+            The Panic Pass SOS Android app has no internet permission and does not transmit personal information, symptom records, or usage analytics. The public website uses anonymous Google Analytics statistics only if the user gives consent (see Section 4).
+        </div>
+
+        <h2>1. Personal information collected</h2>
+        <p>The Android app has no sign-up or login process. It does not collect or transmit personally identifiable information such as a name, contact details, device information, or location. The website also has no sign-up or symptom-record transmission feature.</p>
+
+        <h2>2. Data storage and processing</h2>
+        <p>Personalization data entered in the app, including language preference and medication or allergy notes, remains in localStorage on the user's device. It is not transmitted to the developer or a third-party server. The Android app's core features and music work without an internet connection.</p>
+
+        <h2>3. Third-party sharing and processing</h2>
+        <p>The Android app does not provide data to third parties or outsource its processing. On the website, Google Analytics (Google LLC) is used only when the user allows anonymous usage statistics.</p>
+
+        <h2>4. Google Analytics on the website</h2>
+        <p>Google Analytics does not run in the Android app. The public website loads Google Analytics 4 (GA4) only after the user selects “Allow anonymous stats.” Usage information such as visits, page views, and device or browser type may be processed. Medication, allergy, and symptom notes entered in the app or web demo are not sent. Users can change this choice through “Analytics choices” in the website footer. See the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a> for more information.</p>
+
+        <h2>5. Permissions</h2>
+        <p>The Android app does not request internet, camera, microphone, location, contacts, or other smartphone permissions.</p>
+
+        <h2>6. Contact</h2>
+        <p>For questions about this Privacy Policy, use the <a href="https://github.com/guwopabdurrahman31-ui/No_panic/issues">Panic Pass SOS GitHub issue page</a> or the developer email shown on Google Play.</p>
+        </section>
     </div>
+    <script>
+        function setPolicyLang(lang) {
+            const en = lang === 'en';
+            document.documentElement.lang = en ? 'en' : 'ko';
+            document.getElementById('policyKo').hidden = en;
+            document.getElementById('policyEn').hidden = !en;
+            document.getElementById('policyKoButton').setAttribute('aria-pressed', en ? 'false' : 'true');
+            document.getElementById('policyEnButton').setAttribute('aria-pressed', en ? 'true' : 'false');
+        }
+        setPolicyLang(location.hash === '#en' || new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'ko');
+    </script>
 </body>
 </html>

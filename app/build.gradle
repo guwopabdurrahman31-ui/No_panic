@@ -15,8 +15,8 @@ android {
         applicationId 'com.guwopabdurrahman31ui.panicpasssos'
         minSdk 23
         targetSdk 36
-        versionCode 18
-        versionName '1.0.14'
+        versionCode 19
+        versionName '1.0.15'
     }
 
     signingConfigs {

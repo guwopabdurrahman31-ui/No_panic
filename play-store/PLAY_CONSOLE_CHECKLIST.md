@@ -71,8 +71,8 @@
 
 ## 출시
 
-- 업로드 파일: `release/panic-pass-sos-v1.0.14.aab`
-- 앱 버전: `1.0.14 (18)`
+- 업로드 파일: `release/panic-pass-sos-v1.0.15.aab`
+- 앱 버전: `1.0.15 (19)`
 - 대상 API: Android 16 / API 36
 - 권한: 없음
 - 먼저 내부 테스트 트랙에 업로드
