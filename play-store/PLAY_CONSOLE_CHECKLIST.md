@@ -13,7 +13,7 @@
 - 제목·짧은 설명·자세한 설명: `PLAY_STORE_SUBMISSION_KO.md` 사용
 - 앱 아이콘: `assets/app-icon-512.png`
 - 대표 이미지: `assets/feature-graphic-1024x500.jpg`
-- 휴대전화 스크린샷: `assets/screenshots/`의 5개 PNG 사용
+- 휴대전화 스크린샷: `assets/screenshots/v1.0.14/`의 6개 JPG 사용
 - 카테고리: 건강/운동
 - 웹사이트와 개인정보처리방침 URL 입력
 - Play 계정에서 실제로 수신 가능한 개발자 이메일 입력
@@ -71,8 +71,8 @@
 
 ## 출시
 
-- 업로드 파일: `release/panic-pass-sos-v1.0.7.aab`
-- 앱 버전: `1.0.7 (11)`
+- 업로드 파일: `release/panic-pass-sos-v1.0.14.aab`
+- 앱 버전: `1.0.14 (18)`
 - 대상 API: Android 16 / API 36
 - 권한: 없음
 - 먼저 내부 테스트 트랙에 업로드
